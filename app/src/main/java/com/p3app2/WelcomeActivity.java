@@ -100,7 +100,7 @@ public class WelcomeActivity extends AppCompatActivity {
 //                .replace(R.id.content_frame, fragment)
 //                .commit()
 
-        // Highlight the selected item, update the title, and close the drawer
+        // Highlight the selected item, update the astitle, and close the drawer
         m_drawer_list.setItemChecked(position, true);
         //setTitle(m_option_titles[position]);
         m_drawer_layout.closeDrawer(m_drawer_list);
