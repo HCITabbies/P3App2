@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
 /**
- * Rohan will do this activity
+ * TODO Rohan will do this activity
  */
 
 public class ChatActivity extends AppCompatActivity {
