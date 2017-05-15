@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.support.v4.view.GravityCompat;
@@ -64,14 +65,17 @@ import static java.security.AccessController.getContext;
 public class WelcomeActivity extends AppCompatActivity {
 
     /* Navigation Drawer Objects */
-    private String[] m_option_titles = {"Home", "Chat", "Settings"};
+    /* note: m_option_titles indexes are used in switch statement... */
+    private String[] m_option_titles = {"Home", "Chat", "Settings", "Logout"};
     private DrawerLayout m_drawer_layout;
     private ListView m_drawer_list;
-
     private ActionBarDrawerToggle mDrawerToggle;
-
     private CharSequence mDrawerTitle = "Navigation Drawer";
     private CharSequence mTitle = "Home Screen";
+
+    /* Shared Preferences */
+    SharedPreferences _shared_preferences;
+
 
     class DatabaseAsyncTask extends AsyncTask
     {
@@ -90,6 +94,9 @@ public class WelcomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+        /*
+        *   XMPP Database
+         */
         new DatabaseAsyncTask();
         XMPPConnections xmppConnections = new XMPPConnections();
         try {
@@ -99,6 +106,15 @@ public class WelcomeActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        /*
+        *   Shared Preferences
+        */
+        _shared_preferences = getSharedPreferences("Dickshouse", Context.MODE_PRIVATE);
+
+
+        /*
+        *   Activity and Views
+         */
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
 
@@ -114,7 +130,6 @@ public class WelcomeActivity extends AppCompatActivity {
 
         /* nav drawer shadow when opened */
         m_drawer_layout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
-
 
         // enable ActionBar app icon to behave as action to toggle nav drawer
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -174,16 +189,30 @@ public class WelcomeActivity extends AppCompatActivity {
         m_drawer_layout.closeDrawer(m_drawer_list);
 
         switch(position) {
+            /* Chat clicked */
             case (1):
                 m_drawer_list.setItemChecked(0, true);
                 Intent chat_intent = new Intent(this, ChatActivity.class);
                 startActivity(chat_intent);
                 return;
+            /* Settings clicked */
             case (2):
                 m_drawer_list.setItemChecked(0, true);
                 Intent settings_intent = new Intent(this, SettingsActivity.class);
                 startActivity(settings_intent);
                 return;
+            /* Logout clicked */
+            case (3):
+                /* Logout user by removing email from shared preferences */
+                SharedPreferences.Editor editor = _shared_preferences.edit();
+                editor.remove("email");
+                editor.commit();
+
+                Intent login_intent = new Intent(getApplicationContext(), LoginActivity.class);
+                /* this clears all other activities */
+                login_intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                finishAffinity();
+                startActivity(login_intent);
             default:
                 return;
         }
