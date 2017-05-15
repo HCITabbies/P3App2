@@ -150,10 +150,22 @@ public class WelcomeActivity extends AppCompatActivity {
         };
         m_drawer_layout.addDrawerListener(mDrawerToggle);
 
+
+        /*
+        *   Fragment Management
+         */
+        Fragment home_fragment = new HomeFragment();
+
+        /* Insert the fragment by replacing any existing fragment */
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.content_frame, home_fragment)
+                .commit();
+
+
         if (savedInstanceState == null) {
             selectItem(0);
         }
-
     }
 
     /**
