@@ -5,12 +5,18 @@ package com.p3app2.database;
  */
 
 public class MessageEntry {
-    int mId;
-    int sender;
-    String subject;
-    String body;
+    public long _id;
+    public long mId;
+    public int sender;
+    public String subject;
+    public String body;
 
-    MessageEntry(int id, int sender, String sub, String body)
+    public MessageEntry()
+    {
+
+    }
+
+    public MessageEntry(int id, int sender, String sub, String body)
     {
         this.mId = id;
         this.sender = sender;

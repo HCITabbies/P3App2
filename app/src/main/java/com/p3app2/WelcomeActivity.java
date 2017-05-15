@@ -20,6 +20,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.p3app2.database.MessageEntry;
+import com.p3app2.database.MySQLiteDbHelper;
+
 import org.jivesoftware.smack.AbstractXMPPConnection;
 import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.ConnectionListener;
@@ -46,6 +49,7 @@ import java.security.SecureRandom;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
+import java.util.ArrayList;
 import java.util.Enumeration;
 
 import javax.net.ssl.KeyManager;
@@ -54,6 +58,8 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
+
+import static java.security.AccessController.getContext;
 
 public class WelcomeActivity extends AppCompatActivity {
 
@@ -67,9 +73,24 @@ public class WelcomeActivity extends AppCompatActivity {
     private CharSequence mDrawerTitle = "Navigation Drawer";
     private CharSequence mTitle = "Home Screen";
 
+    class DatabaseAsyncTask extends AsyncTask
+    {
+
+        @Override
+        protected Object doInBackground(Object[] params) {
+            MySQLiteDbHelper helper = MySQLiteDbHelper.getInstance(getApplicationContext());
+            ArrayList<MessageEntry> values = helper.fetchEntries();
+            MessageEntry entry = new MessageEntry(1, 0, "abcd", "adsfsfsd");
+            long res = helper.insertEntry(entry);
+            ArrayList<MessageEntry> values1 = helper.fetchEntries();
+            return null;
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+        new DatabaseAsyncTask();
         XMPPConnections xmppConnections = new XMPPConnections();
         try {
             XMPPConnections.sendMessage("does this work?");

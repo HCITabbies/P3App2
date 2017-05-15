@@ -1,6 +1,8 @@
 package com.p3app2;
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -31,6 +33,18 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+        SharedPreferences sharedPreferences = getSharedPreferences("Dickshouse", Context.MODE_PRIVATE);
+        String email = sharedPreferences.getString("email", null);
+
+        if(email != null)
+        {
+            Intent intent = new Intent(this, WelcomeActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+        }
+
         setContentView(R.layout.activity_login);
 
         email_text = (EditText) findViewById(R.id.input_email);
@@ -76,6 +90,11 @@ public class LoginActivity extends AppCompatActivity {
         String email = email_text.getText().toString();
         String password = passwd_text.getText().toString();
 
+        SharedPreferences sharedPreferences = getSharedPreferences("Dickshouse", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("email", email);
+        editor.commit();
+
         // TODO: Implement your own authentication logic here.
 
         new android.os.Handler().postDelayed(
@@ -112,6 +131,7 @@ public class LoginActivity extends AppCompatActivity {
         login_btn.setEnabled(true);
 
         Intent intent = new Intent(this, WelcomeActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
 
     }

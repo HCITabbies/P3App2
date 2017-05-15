@@ -65,18 +65,24 @@ public class XMPPConnections {
     }
 
     static void sendMessage(String message) throws SmackException.NotConnectedException {
-        try {
-            while(!connected)
-            {
-                Log.d("Not connected", "Not connected");
-                sleep(1);
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    while(!connected)
+                    {
+                        sleep(1000);
+                        Log.d("Not connected", "Not connected");
+                    }
+                    if(connected)
+                        newChat.sendMessage("Howdy!");
+                }
+                catch (SmackException.NotConnectedException e) {
+                    e.printStackTrace();
+                }
             }
-            if(connected)
-                newChat.sendMessage("Howdy!");
-        }
-        catch (SmackException.NotConnectedException e) {
-            e.printStackTrace();
-        }
+        };
+        runnable.run();
     }
 
     class MyAsyncTask extends AsyncTask<Void, Void, Void> implements ConnectionListener {
