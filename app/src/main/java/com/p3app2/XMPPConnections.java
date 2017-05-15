@@ -3,6 +3,9 @@ package com.p3app2;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.p3app2.Chat_Window.ChatMessage;
+import com.p3app2.Chat_Window.ChatWindowActivity;
+
 import org.jivesoftware.smack.AbstractXMPPConnection;
 import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.ConnectionListener;
@@ -20,6 +23,8 @@ import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
+import java.text.DateFormat;
+import java.util.Date;
 
 import static android.os.SystemClock.sleep;
 
@@ -38,13 +43,13 @@ public class XMPPConnections {
     AbstractXMPPConnection connection ;
     ChatManager chatmanager ;
     static Chat newChat;
-    private static boolean connected = false;
+    public static boolean connected = false;
     private boolean isToasted;
     private boolean chat_created;
     private boolean loggedin;
 
 
-    XMPPConnections()
+    public XMPPConnections()
     {
         Log.i("XMPP", "Initializing!");
 
@@ -64,7 +69,7 @@ public class XMPPConnections {
         myAsyncTask.execute();
     }
 
-    static void sendMessage(String message) throws SmackException.NotConnectedException {
+    public static void sendMessage(final String message) throws SmackException.NotConnectedException {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
@@ -75,7 +80,7 @@ public class XMPPConnections {
                         Log.d("Not connected", "Not connected");
                     }
                     if(connected)
-                        newChat.sendMessage("Howdy!");
+                        newChat.sendMessage(message);
                 }
                 catch (SmackException.NotConnectedException e) {
                     e.printStackTrace();
@@ -110,6 +115,12 @@ public class XMPPConnections {
                 newChat = chatmanager.createChat("kirti@prashant", new ChatMessageListener() {
                     @Override
                     public void processMessage(Chat chat, Message message) {
+                        ChatMessage msg = new ChatMessage();
+                        msg.setId(message.getStanzaId());
+                        msg.setMe(false);
+                        msg.setMessage(message.getBody());
+                        msg.setDate(DateFormat.getDateTimeInstance().format(new Date()));
+                        ChatWindowActivity.displayMessage(msg);
                         Log.d("Received", message.getBody());
                     }
                 });
@@ -135,13 +146,15 @@ public class XMPPConnections {
 
         @Override
         public void connectionClosed() {
-            Log.d("ABCD", "Disconnected Connected");
+            connected = false;
+            Log.d("XMPP", "Disconnected");
 
         }
 
         @Override
         public void connectionClosedOnError(Exception e) {
-            Log.d("ABCD", " Closed");
+            connected = false;
+            Log.d("XMPP", " Closed");
 
 
         }

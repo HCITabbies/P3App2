@@ -32,7 +32,7 @@ import java.util.List;
         // Table name string. (Only one table)
         private static final String TABLE_NAME_ENTRIES = "Dickshouse_Database_Table_Messages";
         // Version code
-        private static final int DATABASE_VERSION = 2;
+        private static final int DATABASE_VERSION = 3;
 
         // SQL query to create the table for the first time
         // Data types are defined below
@@ -42,7 +42,7 @@ import java.util.List;
                 + KEY_ROWID
                 + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + KEY_ID
-                + " INTEGER UNIQUE, "
+                + " TEXT UNIQUE, "
                 + KEY_SENDER
                 + " INTEGER, "
                 + KEY_SUBJECT
@@ -127,7 +127,7 @@ import java.util.List;
         private MessageEntry cursorToEntry(Cursor cursor, boolean needGps) {
             MessageEntry entry = new MessageEntry();
             entry._id = cursor.getLong(cursor.getColumnIndex(KEY_ROWID));
-            entry.mId = cursor.getLong(cursor.getColumnIndex(KEY_ID));
+            entry.mId = cursor.getString(cursor.getColumnIndex(KEY_ID));
             entry.sender = cursor.getInt(cursor.getColumnIndex(KEY_SENDER));
             entry.subject = cursor.getString(cursor.getColumnIndex(KEY_SUBJECT));
             entry.body = cursor.getString(cursor.getColumnIndex(KEY_BODY));

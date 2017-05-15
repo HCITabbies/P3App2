@@ -84,7 +84,7 @@ public class WelcomeActivity extends AppCompatActivity {
         protected Object doInBackground(Object[] params) {
             MySQLiteDbHelper helper = MySQLiteDbHelper.getInstance(getApplicationContext());
             ArrayList<MessageEntry> values = helper.fetchEntries();
-            MessageEntry entry = new MessageEntry(1, 0, "abcd", "adsfsfsd");
+            MessageEntry entry = new MessageEntry("1", 0, "abcd", "adsfsfsd");
             long res = helper.insertEntry(entry);
             ArrayList<MessageEntry> values1 = helper.fetchEntries();
             return null;

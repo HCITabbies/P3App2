@@ -11,6 +11,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.p3app2.R;
+import com.p3app2.XMPPConnections;
+
+import org.jivesoftware.smack.SmackException;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -20,18 +23,22 @@ public class ChatWindowActivity extends AppCompatActivity {
 
 
     private EditText messageET;
-    private ListView messagesContainer;
+    private static ListView messagesContainer;
     private Button sendBtn;
-    private ChatAdapter adapter;
+    private static ChatAdapter adapter;
     private ArrayList<ChatMessage> chatHistory;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chat_window);
-        initControls();
+        try {
+            initControls();
+        } catch (SmackException.NotConnectedException e) {
+            e.printStackTrace();
+        }
     }
 
-    private void initControls() {
+    private void initControls() throws SmackException.NotConnectedException {
         messagesContainer = (ListView) findViewById(R.id.messagesContainer);
         messageET = (EditText) findViewById(R.id.messageEdit);
         sendBtn = (Button) findViewById(R.id.chatSendButton);
@@ -53,10 +60,16 @@ public class ChatWindowActivity extends AppCompatActivity {
                 }
 
                 ChatMessage chatMessage = new ChatMessage();
-                chatMessage.setId(122);//dummy
+                chatMessage.setId("122");//dummy
                 chatMessage.setMessage(messageText);
                 chatMessage.setDate(DateFormat.getDateTimeInstance().format(new Date()));
                 chatMessage.setMe(true);
+                try {
+                    XMPPConnections.sendMessage(chatMessage.getMessage());
+                }
+                catch (SmackException.NotConnectedException e) {
+                    e.printStackTrace();
+                }
 
                 messageET.setText("");
 
@@ -65,28 +78,29 @@ public class ChatWindowActivity extends AppCompatActivity {
         });
     }
 
-    public void displayMessage(ChatMessage message) {
+    public static void displayMessage(ChatMessage message)
+    {
         adapter.add(message);
         adapter.notifyDataSetChanged();
         scroll();
     }
 
-    private void scroll() {
+    private static void scroll() {
         messagesContainer.setSelection(messagesContainer.getCount() - 1);
     }
 
-    private void loadDummyHistory(){
+    private void loadDummyHistory() throws SmackException.NotConnectedException {
 
         chatHistory = new ArrayList<ChatMessage>();
 
         ChatMessage msg = new ChatMessage();
-        msg.setId(1);
+        msg.setId("1");
         msg.setMe(false);
         msg.setMessage("Hello, Welcome to the Dick's House Online Counseling.");
         msg.setDate(DateFormat.getDateTimeInstance().format(new Date()));
         chatHistory.add(msg);
         ChatMessage msg1 = new ChatMessage();
-        msg1.setId(2);
+        msg1.setId("2");
         msg1.setMe(false);
         msg1.setMessage("I am your Counselor Tabby. What's bothering you today?");
         msg1.setDate(DateFormat.getDateTimeInstance().format(new Date()));

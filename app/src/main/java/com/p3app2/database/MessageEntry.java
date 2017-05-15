@@ -6,7 +6,7 @@ package com.p3app2.database;
 
 public class MessageEntry {
     public long _id;
-    public long mId;
+    public String mId;
     public int sender;
     public String subject;
     public String body;
@@ -16,7 +16,7 @@ public class MessageEntry {
 
     }
 
-    public MessageEntry(int id, int sender, String sub, String body)
+    public MessageEntry(String id, int sender, String sub, String body)
     {
         this.mId = id;
         this.sender = sender;
