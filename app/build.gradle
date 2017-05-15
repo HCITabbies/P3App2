@@ -41,5 +41,7 @@ dependencies {
 
     compile 'com.android.support:appcompat-v7:25.2.0'
     compile 'com.android.support:design:25.2.0'
+
+    compile 'pl.bclogic:pulsator4droid:1.0.3' /* pulse animation lib */
     testCompile 'junit:junit:4.12'
 }
