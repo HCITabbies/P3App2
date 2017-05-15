@@ -4,6 +4,11 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
+    <color name="anonColorPrimary">#673AB7</color>
+    <color name="anonColorPrimaryDark">#512DAB</color>
+    <color name="anonColorAccent">#FF4081</color>
+    <color name="anonBg">#BB000000</color>
+
     <color name="primary">#E43F3F</color>
     <color name="primary_dark">#E12929</color>
     <color name="primary_darker">#CC1D1D</color>

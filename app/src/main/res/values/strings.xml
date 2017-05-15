@@ -2,8 +2,8 @@
     <string name="app_name">Dick\'s House</string>
     <string name="settings_custom_title">Customize</string>
     <string name="settings_help_title">Help</string>
-    <string name="anonymous_preference">Anonymous</string>
-    <string name="anonymous_summary">Keep your identity secret</string>
+    <string name="anonymous_preference">Share Identity</string>
+    <string name="anonymous_summary">Disable to keep your identity secret</string>
     <string name="mute_title">Mute notifications</string>
     <string name="mute_summary">Enable message notifications</string>
     <string name="pref_username">Username</string>
@@ -14,6 +14,7 @@
     <string name="delete_title">Delete old messages</string>
     <string name="delete_summary">Delete messages 3 days or older</string>
     <string name="pref_appversion">Application version</string>
+    <string name="app_version">1.0.0</string>
     <string name="faq_title_preference">FAQ</string>
     <string name="faq_summary_preference">Click to view frequently asked questions</string>
     <string name="contact_title_preference">Contact us</string>

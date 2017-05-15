@@ -12,6 +12,14 @@ xmlns:android="http://schemas.android.com/apk/res/android">
         android:defaultValue="false"
         android:persistent="true"/>
 
+    <EditTextPreference
+        android:dependency="setting_anonymous"
+        android:key="setting_username"
+        android:title="@string/pref_username"
+        android:summary="@string/pref_username_summary"
+        android:persistent="true"
+        />
+
     <SwitchPreference
         android:key="setting_mute"
         android:title="@string/mute_title"
@@ -19,12 +27,7 @@ xmlns:android="http://schemas.android.com/apk/res/android">
         android:defaultValue="false"
         android:persistent="true"/>
 
-    <EditTextPreference
-        android:key="setting_username"
-        android:title="@string/pref_username"
-        android:summary="@string/pref_username_summary"
-        android:persistent="true"
-        />
+
     <PreferenceScreen
         android:title="@string/setting_advanced">
 
@@ -35,18 +38,18 @@ xmlns:android="http://schemas.android.com/apk/res/android">
             android:defaultValue="false"
             android:persistent="true"/>
 
-        <SwitchPreference
-            android:key="setting_delete"
-            android:title="@string/delete_title"
-            android:summary="@string/delete_summary"
-            android:defaultValue="false"
-            android:persistent="true"/>
+        <!--<SwitchPreference-->
+            <!--android:key="setting_delete"-->
+            <!--android:title="@string/delete_title"-->
+            <!--android:summary="@string/delete_summary"-->
+            <!--android:defaultValue="false"-->
+            <!--android:persistent="true"/>-->
 
-        <EditTextPreference
+        <Preference
             android:key="setting_appversion"
-            android:enabled="false"
             android:title="@string/pref_appversion"
             android:persistent="true"
+            android:summary="@string/app_version"
             />
     </PreferenceScreen>
 
@@ -55,16 +58,19 @@ xmlns:android="http://schemas.android.com/apk/res/android">
 <PreferenceCategory
     android:title="@string/settings_help_title">
 
-    <EditTextPreference
+    <Preference
         android:key="faq_preference"
-        android:enabled="false"
         android:title="@string/faq_title_preference"
+        android:selectable="true"
+        android:enabled="true"
         android:summary="@string/faq_summary_preference"/>
 
-    <EditTextPreference
+    <Preference
         android:key="contact_preference"
+        android:selectable="true"
+        android:enabled="true"
         android:title="@string/contact_title_preference"
-        android:enabled="false"/>
+        />
 
 </PreferenceCategory>
 
