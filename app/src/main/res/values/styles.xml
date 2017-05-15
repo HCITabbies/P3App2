@@ -6,7 +6,7 @@
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="anonTheme" parent="Theme.AppCompat.NoActionBar">
+    <style name="anonTheme" parent="Theme.AppCompat.Light">
         <item name="android:background">@color/anonBg</item>
         <item name="colorPrimary">@color/anonColorPrimary</item>
         <item name="colorPrimaryDark">@color/anonColorPrimaryDark</item>

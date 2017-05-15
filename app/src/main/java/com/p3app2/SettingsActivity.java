@@ -95,7 +95,7 @@ public class SettingsActivity extends PreferenceActivity{
             public boolean onPreferenceChange(Preference mute, Object val) {
                 String newVal = (String)val;
                 uname.setSummary(newVal);
-                return false;
+                return true;
             }
         });
     }
@@ -142,7 +142,7 @@ public class SettingsActivity extends PreferenceActivity{
                 } else {
                     // Enable notifications
                 }
-                return false;
+                return true;
             }
         });
     }
@@ -160,7 +160,7 @@ public class SettingsActivity extends PreferenceActivity{
                 } else {
                     getWindow().clearFlags(WindowManager.LayoutParams.FLAG_SECURE);
                 }
-                return false;
+                return true;
             }
         });
     }
@@ -178,7 +178,7 @@ public class SettingsActivity extends PreferenceActivity{
                     // Enable anonimity
                     setTheme(R.style.anonTheme);
                 }
-                return false;
+                return true;
             }
         });
     }
