@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -15,7 +14,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:gravity="center"
-            android:text="Welcome to the Home Screen"
+            android:text="Welcome to the Voice Call Screen"
             android:layout_marginTop="10dp"
             android:textStyle="bold"
             android:textSize="20dp"/>
@@ -25,37 +24,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:layout_gravity="center_horizontal"
             android:layout_marginTop="5dp"
-            android:text="Tap the 'Start Session' button below to begin a text-chat session" />
+            android:text="Tap the 'Voice Call' button below to make a call to Dick's Medical House Support Staff." />
     </LinearLayout>
 
 
-
-    <pl.bclogic.pulsator4droid.library.PulsatorLayout
-        android:id="@+id/pulsator"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:pulse_count="2"
-        app:pulse_duration="3000"
-        app:pulse_repeat="0"
-        app:pulse_color="@color/DarkGreen"
-        app:pulse_startFromScratch="false"
-        app:pulse_interpolator="Linear">
-    </pl.bclogic.pulsator4droid.library.PulsatorLayout>
-
     <ImageButton
-        android:id="@+id/start_session_btn"
+        android:id="@+id/voice_call_btn"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/button_border"
-        android:src="@drawable/chat_logo"
+        android:layout_height="206dp"
+        android:src="@drawable/voice_logo"
+        android:background="@android:color/transparent"
+        android:paddingLeft="10dp"
+        android:paddingRight="20dp"
         android:scaleType="fitCenter"
-        android:adjustViewBounds="true"
-        android:padding="130dp"
-        android:textSize="14dp"
-        android:layout_gravity="center"
-        />
+        android:layout_gravity="center"/>
 
     <ImageView
         android:id="@+id/imageView"
@@ -64,4 +47,5 @@
         android:layout_gravity="bottom"
         android:layout_marginLeft="170dp"
         android:src="@drawable/td_lowpoly_trees" />
+
 </FrameLayout>

@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.p3app2.Chat_Window.ChatWindowActivity;
 
@@ -29,7 +30,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         _view_grp = container;
         _view =  inflater.inflate(R.layout.fragment_home, container, false);
 
-        Button start_button = (Button) _view.findViewById(R.id.start_session_btn);
+        ImageButton start_button = (ImageButton) _view.findViewById(R.id.start_session_btn);
         start_button.setOnClickListener(this);
 
         return _view;

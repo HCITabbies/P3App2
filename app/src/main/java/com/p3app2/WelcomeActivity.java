@@ -70,7 +70,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
     /* Navigation Drawer Objects */
     /* note: m_option_titles indexes are used in switch statement... */
-    private String[] m_option_titles = {"Home", "Voice Session", "Settings", "History", "Logout"};
+    private String[] m_option_titles = {"Home", "Voice Call", "Settings", "History", "Logout"};
     private DrawerLayout m_drawer_layout;
     private ListView m_drawer_list;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -79,6 +79,10 @@ public class WelcomeActivity extends AppCompatActivity {
 
     /* Shared Preferences */
     SharedPreferences _shared_preferences;
+
+    /* Fragments */
+    HomeFragment home_fragment = new HomeFragment();
+    VoiceFragment voice_fragment = new VoiceFragment();
 
 
     class DatabaseAsyncTask extends AsyncTask
@@ -187,8 +191,6 @@ public class WelcomeActivity extends AppCompatActivity {
         /*
         *   Fragment Management
          */
-        Fragment home_fragment = new HomeFragment();
-
         /* Insert the fragment by replacing any existing fragment */
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction()
@@ -223,12 +225,9 @@ public class WelcomeActivity extends AppCompatActivity {
     /** Swaps fragments in the main content view */
     private void selectItem(int position) {
 //        // Insert the fragment by replacing any existing fragment
-//        FragmentManager fragmentManager = getFragmentManager();
-//        fragmentManager.beginTransaction()
-//                .replace(R.id.content_frame, fragment)
-//                .commit()
+        FragmentManager fragmentManager = getFragmentManager();
 
-        // Highlight the selected item, update the astitle, and close the drawer
+        // Highlight the selected item, update the title, and close the drawer
         m_drawer_list.setItemChecked(position, true);
         //setTitle(m_option_titles[position]);
         m_drawer_layout.closeDrawer(m_drawer_list);
@@ -236,9 +235,12 @@ public class WelcomeActivity extends AppCompatActivity {
         switch(position) {
             /* Voice Session clicked */
             case (1):
-                m_drawer_list.setItemChecked(0, true);
-                Intent chat_intent = new Intent(this, ChatActivity.class);
-                startActivity(chat_intent);
+                m_drawer_list.setItemChecked(1, true);
+
+                fragmentManager.beginTransaction()
+                .replace(R.id.content_frame, voice_fragment)
+                .commit();
+                setTitle("Voice Call");
                 return;
             /* Settings clicked */
             case (2):
@@ -249,7 +251,7 @@ public class WelcomeActivity extends AppCompatActivity {
             /* History clicked */
             case (3):
                 //TODO hi Rohan here is the history tab
-
+                return;
 
             /* Logout clicked */
             case (4):
@@ -263,7 +265,13 @@ public class WelcomeActivity extends AppCompatActivity {
                 login_intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 finishAffinity();
                 startActivity(login_intent);
+                return;
             default:
+                setTitle("Home Screen");
+                m_drawer_list.setItemChecked(0, true);
+                fragmentManager.beginTransaction()
+                    .replace(R.id.content_frame, home_fragment)
+                    .commit();
                 return;
         }
 
