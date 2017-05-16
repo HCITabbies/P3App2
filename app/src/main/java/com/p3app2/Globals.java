@@ -7,4 +7,5 @@ package com.p3app2;
 public class Globals {
 
     public static boolean contact_permission = false;
+    public static boolean notifications = true;
 }
