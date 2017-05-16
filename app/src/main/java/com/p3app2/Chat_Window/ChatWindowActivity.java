@@ -1,5 +1,6 @@
 package com.p3app2.Chat_Window;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -10,6 +11,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.p3app2.MessageReceiverService;
 import com.p3app2.R;
 import com.p3app2.XMPPConnections;
 
@@ -30,6 +32,8 @@ public class ChatWindowActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent ir  = new Intent(this, MessageReceiverService.class);
+        startService(ir);
         setContentView(R.layout.chat_window);
         try {
             initControls();

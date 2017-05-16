@@ -20,28 +20,29 @@
         <activity android:name=".WelcomeActivity">
             <intent-filter>
                 <action android:name="com.p3app2.WelcomeActivity" />
-
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity android:name=".SettingsActivity">
             <intent-filter>
                 <action android:name="com.p3app2.SettingsActivity" />
-
                 <category android:name="android.intent.category.PREFERENCE" />
             </intent-filter>
         </activity>
         <activity android:name=".ChatActivity">
             <intent-filter>
                 <action android:name="com.p3app2.ChatActivity" />
-
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
             android:name=".Chat_Window.ChatWindowActivity"
             android:label="@string/title_activity_chat_window"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <service
+            android:name=".MessageReceiverService"
+            android:exported="false"/>
     </application>
 
 </manifest>

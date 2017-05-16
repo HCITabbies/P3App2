@@ -122,7 +122,6 @@ public class WelcomeActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
             {
@@ -131,17 +130,13 @@ public class WelcomeActivity extends AppCompatActivity {
             }
         }
 
+
+
         /*
         *   XMPP Database
          */
         new DatabaseAsyncTask();
         XMPPConnections xmppConnections = new XMPPConnections();
-        try {
-            XMPPConnections.sendMessage("does this work?");
-        }
-        catch (SmackException.NotConnectedException e) {
-            e.printStackTrace();
-        }
 
         /*
         *   Shared Preferences
