@@ -1,9 +1,13 @@
 package com.p3app2;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
@@ -31,9 +35,38 @@ public class LoginActivity extends AppCompatActivity {
 //    @InjectView(R.id.link_signup) TextView signup_txt;
 
     @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case 0: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+                    Globals.contact_permission = true;
+                } else {
+                    // boo-ya
+                    // He/she didn't give us permission.
+                    Globals.contact_permission = false;
+                }
+                return;
+            }
+        }
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.CALL_PHONE}, 0);
+            }
+        }
 
         SharedPreferences sharedPreferences = getSharedPreferences("Dickshouse", Context.MODE_PRIVATE);
         String email = sharedPreferences.getString("email", null);

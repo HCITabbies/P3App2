@@ -45,7 +45,7 @@ public class SettingsActivity extends PreferenceActivity{
 
         // FAQ Customizations
         Preference faq = findPreference(KEY_FAQ);
-        customizeFaq(faq);
+//        customizeFaq(faq);
 
         // Contact customization
         Preference contact = findPreference(KEY_CONTACT);
@@ -99,36 +99,45 @@ public class SettingsActivity extends PreferenceActivity{
             }
         });
     }
-
-    public void customizeFaq(Preference faq) {
-        faq.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                // If FAQ or Contact us ..do what needs to be done
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.cs.dartmouth.edu/~kiwi/"));
-                startActivity(browserIntent);
-                return false;
-            }
-        });
-    }
+//
+//    public void customizeFaq(Preference faq) {
+//        faq.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+//            @Override
+//            public boolean onPreferenceClick(Preference preference) {
+//                // If FAQ or Contact us ..do what needs to be done
+//                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.cs.dartmouth.edu/~kiwi/"));
+//                startActivity(browserIntent);
+//                return false;
+//            }
+//        });
+//    }
 
     public void customizeContact(Preference contact) {
         final Context that = this;
-
-        contact.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                Intent callIntent = new Intent(Intent.ACTION_CALL);
-                callIntent.setData(Uri.parse("tel:123456789"));
-                if ( ContextCompat.checkSelfPermission( that, Manifest.permission.CALL_PHONE ) != PackageManager.PERMISSION_GRANTED ) {
-
-                    ActivityCompat.requestPermissions(new SettingsActivity(), new String[] {  android.Manifest.permission.CALL_PHONE  }, MY_PERMISSIONS_REQUEST_CALL_PHONE);
+        if (Globals.contact_permission == false)
+        {
+            // TODO: Dialogue saying permission not given (Or a toast)
+        }
+        else {
+            // TODO: Dialogue confirming
+            contact.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    Intent callIntent = new Intent(Intent.ACTION_CALL);
+                    callIntent.setData(Uri.parse("tel:123456789"));
+//                if ( ContextCompat.checkSelfPermission( that, Manifest.permission.CALL_PHONE ) != PackageManager.PERMISSION_GRANTED ) {
+//
+//                    ActivityCompat.requestPermissions(that, new String[] {  android.Manifest.permission.CALL_PHONE  }, MY_PERMISSIONS_REQUEST_CALL_PHONE);
+//                }
+                    try {
+                        startActivity(callIntent);
+                    } catch (SecurityException e) {
+                        e.printStackTrace();
+                    }
+                    return false;
                 }
-
-                startActivity(callIntent);
-                return false;
-            }
-        });
+            });
+        }
     }
 
     public void customizeMute(Preference mute) {
