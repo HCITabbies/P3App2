@@ -66,7 +66,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
     /* Navigation Drawer Objects */
     /* note: m_option_titles indexes are used in switch statement... */
-    private String[] m_option_titles = {"Home", "Chat", "Settings", "Logout"};
+    private String[] m_option_titles = {"Home", "Voice Session", "Settings", "History", "Logout"};
     private DrawerLayout m_drawer_layout;
     private ListView m_drawer_list;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -201,7 +201,7 @@ public class WelcomeActivity extends AppCompatActivity {
         m_drawer_layout.closeDrawer(m_drawer_list);
 
         switch(position) {
-            /* Chat clicked */
+            /* Voice Session clicked */
             case (1):
                 m_drawer_list.setItemChecked(0, true);
                 Intent chat_intent = new Intent(this, ChatActivity.class);
@@ -213,8 +213,13 @@ public class WelcomeActivity extends AppCompatActivity {
                 Intent settings_intent = new Intent(this, SettingsActivity.class);
                 startActivity(settings_intent);
                 return;
-            /* Logout clicked */
+            /* History clicked */
             case (3):
+                //TODO hi Rohan here is the history tab
+
+
+            /* Logout clicked */
+            case (4):
                 /* Logout user by removing email from shared preferences */
                 SharedPreferences.Editor editor = _shared_preferences.edit();
                 editor.remove("email");
