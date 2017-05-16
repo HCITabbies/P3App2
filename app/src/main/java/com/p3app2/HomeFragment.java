@@ -1,6 +1,8 @@
 package com.p3app2;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -51,11 +53,32 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         switch (v.getId()) {
             case (R.id.start_session_btn):
                 /* start the session */
-                /*Chat Window Intent Code goes here*/
-                Intent intent = new Intent(v.getContext(), ChatWindowActivity.class);
-                startActivity(intent);
-
+                confirmChatDialog();
+            default:
+                return;
 
         }
+    }
+
+    private void confirmChatDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+        builder
+                .setMessage("About to start a Text-Chat Session - Please confirm")
+                .setPositiveButton("Yes",  new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        /*Chat Window Intent Code goes here*/
+                        Intent intent = new Intent(_view.getContext(), ChatWindowActivity.class);
+                        startActivity(intent);
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                })
+                .show();
     }
 }

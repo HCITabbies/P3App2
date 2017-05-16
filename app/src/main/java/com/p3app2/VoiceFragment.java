@@ -1,6 +1,8 @@
 package com.p3app2;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -44,9 +46,30 @@ public class VoiceFragment extends Fragment implements View.OnClickListener {
         switch (v.getId()) {
             case (R.id.voice_call_btn):
                 Log.d("VoiceFragment", "voice_call_btn pressed");
-
+                confirmVoiceDialog();
 
         }
+    }
+
+    private void confirmVoiceDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+        builder
+                .setMessage("About to call Dick's Medical House Staff - Please confirm")
+                .setPositiveButton("Yes",  new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        // Yes-code
+                        Log.d("VoiceFragment", "Calling");
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                })
+                .show();
     }
 
 }
