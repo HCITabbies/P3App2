@@ -56,8 +56,10 @@ public class MessageReceiverService extends IntentService {
         Notification notification = mBuilder.build();
         notification.flags = notification.flags | Notification.FLAG_ONGOING_EVENT;
         notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(0, notification);
-        Globals.currentnotifications = true;
+        if (Globals.notifications == true) {
+            notificationManager.notify(0, notification);
+            Globals.currentnotifications = true;
+        }
     }
 
     public static void unsetNotification()
