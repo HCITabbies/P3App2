@@ -44,7 +44,7 @@ public class WelcomeActivity extends AppCompatActivity {
     HomeFragment home_fragment = new HomeFragment();
     VoiceFragment voice_fragment = new VoiceFragment();
     HistoryFragment history_fragment = new HistoryFragment();
-
+    SettingsFragment settings_fragment = new SettingsFragment();
 
     class DatabaseAsyncTask extends AsyncTask
     {
@@ -201,8 +201,13 @@ public class WelcomeActivity extends AppCompatActivity {
             /* Settings clicked */
             case (2):
                 m_drawer_list.setItemChecked(0, true);
-                Intent settings_intent = new Intent(this, SettingsActivity.class);
-                startActivity(settings_intent);
+
+                fragmentManager.beginTransaction()
+                        .replace(R.id.content_frame, settings_fragment)
+                        .commit();
+                setTitle("Settings");
+//                Intent settings_intent = new Intent(this, SettingsFragment.class);
+//                startActivity(settings_intent);
                 return;
             /* History clicked */
             case (3):
