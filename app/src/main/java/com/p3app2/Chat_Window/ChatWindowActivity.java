@@ -1,5 +1,6 @@
 package com.p3app2.Chat_Window;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -12,12 +13,19 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.p3app2.MessageReceiverService;
 import com.p3app2.R;
 import com.p3app2.XMPPConnections;
 
 import org.jivesoftware.smack.SmackException;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -76,7 +84,7 @@ public class ChatWindowActivity extends AppCompatActivity {
 
                 chatMessage.setMessage(messageText);
                 chatMessage.setDate(DateFormat.getDateTimeInstance().format(new Date()));
-                chatMessage.setStudent(true);
+                chatMessage.setIsStudent(true);
                 try {
                     XMPPConnections.sendMessage(chatMessage.getMessage());
                 }
@@ -106,11 +114,63 @@ public class ChatWindowActivity extends AppCompatActivity {
 
     private void serializeChat() {
         List<ChatMessage> conversation = adapter.getChat();
-        for(ChatMessage cm: conversation)
-        {
-            Log.d(cm.getId(), cm.getMessage());
+        //assign a chat record to serialize
+        ChatRecord record = new ChatRecord();
+        record.setChatMessages(conversation);
+        record.setNumberOfMessages(conversation.size());
+        record.setDateTimeStarted(conversation.get(0).getDate());
+        record.setDateTimeEnded(conversation.get(conversation.size()-1).getDate());
+
+        Gson gson = new Gson();
+        String finalRecord = gson.toJson(record);
+        FileOutputStream outputStream;
+        String filename = "ChatRecord1.txt";
+        Log.d("finalrecord sample here","");
+        Log.d(finalRecord,"");
+        Log.d("finalrecord ends here","");
+        try {
+            outputStream = openFileOutput(filename, Context.MODE_PRIVATE);
+            outputStream.write(finalRecord.getBytes());
+            outputStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.d("Error in writing GSON","");
         }
 
+        /*
+        CODE TO VIEW WRITTEN RECORD
+         */
+
+
+        FileInputStream fis = null;
+        try {
+            fis = openFileInput("ChatRecord1.txt");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            Log.d("Written FileNotFound","");
+        }
+
+        InputStreamReader isr = new InputStreamReader(fis);
+            BufferedReader bufferedReader = new BufferedReader(isr);
+            StringBuilder sb = new StringBuilder();
+            String line;
+        try {
+            while ((line = bufferedReader.readLine()) != null) {
+                sb.append(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        String json = sb.toString();
+        ChatRecord openRecord = gson.fromJson(json, ChatRecord.class);
+        Log.d("Opened Chat Record", String.valueOf(openRecord.getNumberOfMessages()));
+
+      /*  for(ChatMessage cm: conversation)
+        {
+            Log.d(cm.getId(), cm.getMessage());
+        }*/
 
     }
 
@@ -132,13 +192,13 @@ public class ChatWindowActivity extends AppCompatActivity {
         ChatMessage msg = new ChatMessage();
         msg.setId(String.valueOf(globalMsgCounter++));
 
-        msg.setStudent(false);
+        msg.setIsStudent(false);
         msg.setMessage("Hello, Welcome to the Dick's House Online Counseling.");
         msg.setDate(DateFormat.getDateTimeInstance().format(new Date()));
         chatHistory.add(msg);
         ChatMessage msg1 = new ChatMessage();
         msg1.setId(String.valueOf(globalMsgCounter++));
-        msg1.setStudent(false);
+        msg1.setIsStudent(false);
         msg1.setMessage("I am your Counselor Tabby. What's bothering you today?");
         msg1.setDate(DateFormat.getDateTimeInstance().format(new Date()));
         chatHistory.add(msg1);

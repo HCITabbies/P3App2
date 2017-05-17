@@ -18,10 +18,10 @@ public class ChatMessage {
         public void setId(String id) {
             this.id = id;
         }
-        public boolean getIsme() {
+        public boolean getIsStudent() {
             return isStudent;
         }
-        public void setStudent(boolean isMe) {
+        public void setIsStudent(boolean isMe) {
             this.isStudent = isMe;
         }
         public String getMessage() {
