@@ -30,7 +30,7 @@ public class ChatWindowActivity extends AppCompatActivity {
     private static ChatAdapter adapter;
     private ArrayList<ChatMessage> chatHistory;
     private Button finishChat;
-
+    private int clientChatCounter = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +49,7 @@ public class ChatWindowActivity extends AppCompatActivity {
         messageET = (EditText) findViewById(R.id.messageEdit);
         sendBtn = (Button) findViewById(R.id.chatSendButton);
         finishChat = (Button) findViewById(R.id.finishChatButton);
-
+        clientChatCounter=0;
         TextView meLabel = (TextView) findViewById(R.id.meLbl);
         TextView companionLabel = (TextView) findViewById(R.id.friendLabel);
         RelativeLayout container = (RelativeLayout) findViewById(R.id.container);
@@ -67,7 +67,8 @@ public class ChatWindowActivity extends AppCompatActivity {
                 }
 
                 ChatMessage chatMessage = new ChatMessage();
-                chatMessage.setId("122");//dummy
+                chatMessage.setId(Integer.toString(clientChatCounter));
+                clientChatCounter++;
                 chatMessage.setMessage(messageText);
                 chatMessage.setDate(DateFormat.getDateTimeInstance().format(new Date()));
                 chatMessage.setMe(true);
