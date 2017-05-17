@@ -2,8 +2,10 @@ package com.p3app2;
 
 import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.p3app2.Chat_Window.ChatWindowActivity;
 
@@ -27,11 +30,21 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     PulsatorLayout _pulsator;
 
+    /* Shared Preferences for Anonymous indication textviews */
+    protected SharedPreferences shared_pref;
+    TextView anon_text_on;
+    TextView anon_text_off;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         _view_grp = container;
         _view =  inflater.inflate(R.layout.fragment_home, container, false);
 
+        /* set anon indicator text */
+        anon_text_off = (TextView) _view.findViewById(R.id.anon_off_txt);
+        anon_text_on = (TextView) _view.findViewById(R.id.anon_on_txt);
+
+        /* Make pulsating start button */
         ImageButton start_button = (ImageButton) _view.findViewById(R.id.start_session_btn);
         start_button.setOnClickListener(this);
 
@@ -49,11 +62,28 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        shared_pref = getActivity().getSharedPreferences("Dickshouse", Context.MODE_PRIVATE);
+        boolean anon_val = shared_pref.getBoolean(SettingsActivity.KEY_ANON, false);
+        if (anon_val) {
+            anon_text_off.setVisibility(TextView.INVISIBLE);
+            anon_text_on.setVisibility(TextView.VISIBLE);
+        }
+        else {
+            anon_text_off.setVisibility(TextView.VISIBLE);
+            anon_text_on.setVisibility(TextView.INVISIBLE);
+        }
+        Log.d("HomeFragment", "onResume returning");
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case (R.id.start_session_btn):
                 /* start the session */
                 confirmChatDialog();
+                return;
             default:
                 return;
 
