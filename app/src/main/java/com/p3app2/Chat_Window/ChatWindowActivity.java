@@ -138,7 +138,11 @@ public class ChatWindowActivity extends AppCompatActivity {
         }
 
         /*
+        **********************************
+        **********************************
         CODE TO VIEW WRITTEN RECORD
+        **********************************
+        **********************************
          */
 
 
