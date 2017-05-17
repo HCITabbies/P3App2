@@ -65,7 +65,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     public void onResume() {
         super.onResume();
         shared_pref = getActivity().getSharedPreferences("Dickshouse", Context.MODE_PRIVATE);
-        boolean anon_val = shared_pref.getBoolean(SettingsActivity.KEY_ANON, false);
+        boolean anon_val = shared_pref.getBoolean(SettingsFragment.KEY_ANON, false);
         if (anon_val) {
             anon_text_off.setVisibility(TextView.INVISIBLE);
             anon_text_on.setVisibility(TextView.VISIBLE);
