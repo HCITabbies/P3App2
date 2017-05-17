@@ -90,7 +90,7 @@ public class ChatWindowActivity extends AppCompatActivity {
             public void onClick(View v) {
                 ////Save all the conversations to flat file
 
-
+                MessageReceiverService.unsetNotification();
                 finish();
 
             }
