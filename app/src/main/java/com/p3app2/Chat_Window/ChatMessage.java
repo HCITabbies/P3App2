@@ -6,7 +6,7 @@ package com.p3app2.Chat_Window;
 
 public class ChatMessage {
         private String id;
-        private boolean isMe;
+        private boolean isStudent;
         private String message;
         private Long userId;
         private String dateTime;
@@ -19,10 +19,10 @@ public class ChatMessage {
             this.id = id;
         }
         public boolean getIsme() {
-            return isMe;
+            return isStudent;
         }
-        public void setMe(boolean isMe) {
-            this.isMe = isMe;
+        public void setStudent(boolean isMe) {
+            this.isStudent = isMe;
         }
         public String getMessage() {
             return message;

@@ -117,7 +117,7 @@ public class XMPPConnections {
                     public void processMessage(Chat chat, Message message) {
                         ChatMessage msg = new ChatMessage();
                         msg.setId(message.getStanzaId());
-                        msg.setMe(false);
+                        msg.setStudent(false);
                         msg.setMessage(message.getBody());
                         msg.setDate(DateFormat.getDateTimeInstance().format(new Date()));
                         ChatWindowActivity.displayMessage(msg);

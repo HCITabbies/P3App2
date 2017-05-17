@@ -32,7 +32,10 @@ public class ChatWindowActivity extends AppCompatActivity {
     private static ChatAdapter adapter;
     private ArrayList<ChatMessage> chatHistory;
     private Button finishChat;
-    private int clientChatCounter = 0;
+/*    private int studentChatCounter = 0;
+    private int counselorChatCounter=0;*/
+    private int globalMsgCounter=0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,7 +54,7 @@ public class ChatWindowActivity extends AppCompatActivity {
         messageET = (EditText) findViewById(R.id.messageEdit);
         sendBtn = (Button) findViewById(R.id.chatSendButton);
         finishChat = (Button) findViewById(R.id.finishChatButton);
-        clientChatCounter=0;
+        globalMsgCounter =0;
         TextView meLabel = (TextView) findViewById(R.id.meLbl);
         TextView companionLabel = (TextView) findViewById(R.id.friendLabel);
         RelativeLayout container = (RelativeLayout) findViewById(R.id.container);
@@ -69,11 +72,11 @@ public class ChatWindowActivity extends AppCompatActivity {
                 }
 
                 ChatMessage chatMessage = new ChatMessage();
-                chatMessage.setId(Integer.toString(clientChatCounter));
-                clientChatCounter++;
+                chatMessage.setId(Integer.toString(globalMsgCounter++));
+
                 chatMessage.setMessage(messageText);
                 chatMessage.setDate(DateFormat.getDateTimeInstance().format(new Date()));
-                chatMessage.setMe(true);
+                chatMessage.setStudent(true);
                 try {
                     XMPPConnections.sendMessage(chatMessage.getMessage());
                 }
@@ -107,6 +110,8 @@ public class ChatWindowActivity extends AppCompatActivity {
         {
             Log.d(cm.getId(), cm.getMessage());
         }
+
+
     }
 
     public static void displayMessage(ChatMessage message)
@@ -125,14 +130,15 @@ public class ChatWindowActivity extends AppCompatActivity {
         chatHistory = new ArrayList<ChatMessage>();
 
         ChatMessage msg = new ChatMessage();
-        msg.setId("1");
-        msg.setMe(false);
+        msg.setId(String.valueOf(globalMsgCounter++));
+
+        msg.setStudent(false);
         msg.setMessage("Hello, Welcome to the Dick's House Online Counseling.");
         msg.setDate(DateFormat.getDateTimeInstance().format(new Date()));
         chatHistory.add(msg);
         ChatMessage msg1 = new ChatMessage();
-        msg1.setId("2");
-        msg1.setMe(false);
+        msg1.setId(String.valueOf(globalMsgCounter++));
+        msg1.setStudent(false);
         msg1.setMessage("I am your Counselor Tabby. What's bothering you today?");
         msg1.setDate(DateFormat.getDateTimeInstance().format(new Date()));
         chatHistory.add(msg1);
