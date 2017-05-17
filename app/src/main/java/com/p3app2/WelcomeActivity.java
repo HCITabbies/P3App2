@@ -1,72 +1,36 @@
 package com.p3app2;
 
-import android.app.Fragment;
+import android.Manifest;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.os.AsyncTask;
+import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.telecom.Connection;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.p3app2.database.MessageEntry;
 import com.p3app2.database.MySQLiteDbHelper;
 
-import org.jivesoftware.smack.AbstractXMPPConnection;
-import org.jivesoftware.smack.ConnectionConfiguration;
-import org.jivesoftware.smack.ConnectionListener;
-import org.jivesoftware.smack.SmackException;
-import org.jivesoftware.smack.XMPPConnection;
-import org.jivesoftware.smack.XMPPException;
-import org.jivesoftware.smack.chat.Chat;
-import org.jivesoftware.smack.chat.ChatManager;
-import org.jivesoftware.smack.chat.ChatMessageListener;
-import org.jivesoftware.smack.packet.Message;
-import org.jivesoftware.smack.tcp.XMPPTCPConnection;
-import org.jivesoftware.smack.tcp.XMPPTCPConnectionConfiguration;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.InetAddress;
-import java.net.Socket;
-import java.net.UnknownHostException;
-import java.security.KeyManagementException;
-import java.security.KeyStore;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.security.cert.CertificateException;
-import java.security.cert.CertificateFactory;
-import java.security.cert.X509Certificate;
 import java.util.ArrayList;
-import java.util.Enumeration;
-
-import javax.net.ssl.KeyManager;
-import javax.net.ssl.KeyManagerFactory;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSocketFactory;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.TrustManagerFactory;
-
-import static java.security.AccessController.getContext;
 
 public class WelcomeActivity extends AppCompatActivity {
 
     /* Navigation Drawer Objects */
     /* note: m_option_titles indexes are used in switch statement... */
-    private String[] m_option_titles = {"Home", "Chat", "Settings", "Logout"};
+    private String[] m_option_titles = {"Home", "Voice Call", "Settings", "History", "Logout"};
     private DrawerLayout m_drawer_layout;
     private ListView m_drawer_list;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -75,6 +39,11 @@ public class WelcomeActivity extends AppCompatActivity {
 
     /* Shared Preferences */
     SharedPreferences _shared_preferences;
+
+    /* Fragments */
+    HomeFragment home_fragment = new HomeFragment();
+    VoiceFragment voice_fragment = new VoiceFragment();
+    HistoryFragment history_fragment = new HistoryFragment();
 
 
     class DatabaseAsyncTask extends AsyncTask
@@ -92,19 +61,43 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case 0: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+                    Globals.contact_permission = true;
+                } else {
+                    // boo-ya
+                    // He/she didn't give us permission.
+                    Globals.contact_permission = false;
+                }
+                return;
+            }
+        }
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.CALL_PHONE}, 0);
+            }
+        }
+
+
 
         /*
         *   XMPP Database
          */
         new DatabaseAsyncTask();
         XMPPConnections xmppConnections = new XMPPConnections();
-        try {
-            XMPPConnections.sendMessage("does this work?");
-        }
-        catch (SmackException.NotConnectedException e) {
-            e.printStackTrace();
-        }
 
         /*
         *   Shared Preferences
@@ -154,8 +147,6 @@ public class WelcomeActivity extends AppCompatActivity {
         /*
         *   Fragment Management
          */
-        Fragment home_fragment = new HomeFragment();
-
         /* Insert the fragment by replacing any existing fragment */
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction()
@@ -190,22 +181,22 @@ public class WelcomeActivity extends AppCompatActivity {
     /** Swaps fragments in the main content view */
     private void selectItem(int position) {
 //        // Insert the fragment by replacing any existing fragment
-//        FragmentManager fragmentManager = getFragmentManager();
-//        fragmentManager.beginTransaction()
-//                .replace(R.id.content_frame, fragment)
-//                .commit()
+        FragmentManager fragmentManager = getFragmentManager();
 
-        // Highlight the selected item, update the astitle, and close the drawer
+        // Highlight the selected item, update the title, and close the drawer
         m_drawer_list.setItemChecked(position, true);
         //setTitle(m_option_titles[position]);
         m_drawer_layout.closeDrawer(m_drawer_list);
 
         switch(position) {
-            /* Chat clicked */
+            /* Voice Session clicked */
             case (1):
-                m_drawer_list.setItemChecked(0, true);
-                Intent chat_intent = new Intent(this, ChatActivity.class);
-                startActivity(chat_intent);
+                m_drawer_list.setItemChecked(1, true);
+
+                fragmentManager.beginTransaction()
+                .replace(R.id.content_frame, voice_fragment)
+                .commit();
+                setTitle("Voice Call");
                 return;
             /* Settings clicked */
             case (2):
@@ -213,8 +204,21 @@ public class WelcomeActivity extends AppCompatActivity {
                 Intent settings_intent = new Intent(this, SettingsActivity.class);
                 startActivity(settings_intent);
                 return;
-            /* Logout clicked */
+            /* History clicked */
             case (3):
+                //TODO hi Rohan here is the history tab
+
+
+                m_drawer_list.setItemChecked(3, true);
+                fragmentManager.beginTransaction()
+                        .replace(R.id.content_frame, history_fragment)
+                        .commit();
+                setTitle("History Chats");
+                return;
+
+
+            /* Logout clicked */
+            case (4):
                 /* Logout user by removing email from shared preferences */
                 SharedPreferences.Editor editor = _shared_preferences.edit();
                 editor.remove("email");
@@ -225,7 +229,13 @@ public class WelcomeActivity extends AppCompatActivity {
                 login_intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 finishAffinity();
                 startActivity(login_intent);
+                return;
             default:
+                setTitle("Home Screen");
+                m_drawer_list.setItemChecked(0, true);
+                fragmentManager.beginTransaction()
+                    .replace(R.id.content_frame, home_fragment)
+                    .commit();
                 return;
         }
 

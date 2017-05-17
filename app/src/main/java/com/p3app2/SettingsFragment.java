@@ -21,7 +21,7 @@ import android.view.WindowManager;
  * Kirti will handle this activity
  */
 
-public class SettingsActivity extends PreferenceFragment{
+public class SettingsFragment extends PreferenceFragment{
     public static final String KEY_ANON = "setting_anonymous";
     public static final String KEY_UNAME = "setting_username";
     public static final String KEY_MUTE = "setting_mute";
@@ -90,35 +90,49 @@ public class SettingsActivity extends PreferenceFragment{
     }
 
     public void customizeContact(Preference contact) {
-        final Context that = getContext();
-        contact.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                new AlertDialog.Builder(that)
-                        .setTitle("Confirm")
-                        .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                // do nothing
-                            }
-                        })
-                        .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                // OK has been pressed => force the new value and update the checkbox display
-                                Intent callIntent = new Intent(Intent.ACTION_CALL);
-                                callIntent.setData(Uri.parse("tel:123456789"));
-                                if ( ContextCompat.checkSelfPermission( that, Manifest.permission.CALL_PHONE ) != PackageManager.PERMISSION_GRANTED ) {
-                                    ActivityCompat.requestPermissions(getActivity(), new String[] {  android.Manifest.permission.CALL_PHONE  }, MY_PERMISSIONS_REQUEST_CALL_PHONE);
+        final Context that = this.getContext();
+
+        if (Globals.contact_permission == false)
+        {
+            // TODO: Dialogue saying permission not given (Or a toast)
+        }
+        else {
+            // TODO: Dialogue confirming
+
+            contact.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    new AlertDialog.Builder(that)
+                            .setTitle("Confirm")
+                            .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    // do nothing
                                 }
+                            })
+                            .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    // OK has been pressed => force the new value and update the checkbox display
+                                    Intent callIntent = new Intent(Intent.ACTION_CALL);
+                                    callIntent.setData(Uri.parse("tel:123456789"));
+                                    if ( ContextCompat.checkSelfPermission( that, Manifest.permission.CALL_PHONE ) != PackageManager.PERMISSION_GRANTED ) {
+                                        ActivityCompat.requestPermissions(getActivity(), new String[] {  android.Manifest.permission.CALL_PHONE  }, MY_PERMISSIONS_REQUEST_CALL_PHONE);
+                                    }
 
-                                startActivity(callIntent);
-                            }
-                        }).create().show();
+                                    try {
+                                        startActivity(callIntent);
+                                    } catch (SecurityException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }).create().show();
 
-                return false;
-            }
-        });
+
+                    return false;
+                }
+            });
+        }
     }
 
     public void customizeMute(Preference mute) {

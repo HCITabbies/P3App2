@@ -62,6 +62,8 @@ public class ChatAdapter extends BaseAdapter{
         chatMessages.addAll(messages);
     }
 
+    public List<ChatMessage> getChat(){return chatMessages;}
+
     private ViewHolder createViewHolder(View v) {
         ViewHolder holder = new ViewHolder();
         holder.txtMessage = (TextView) v.findViewById(R.id.txtMessage);

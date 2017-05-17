@@ -1,0 +1,32 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.p3app2.HistoryFragment">
+    <ListView
+
+        android:id="@+id/messagesContainer"
+
+        android:layout_width="match_parent"
+
+        android:layout_height="match_parent"
+
+        android:layout_alignParentLeft="false"
+
+        android:layout_alignParentTop="false"
+
+        android:layout_marginBottom="20dp"
+
+        android:layout_above="@+id/messageEdit"
+
+        android:layout_below="@+id/meLbl"
+
+        android:layout_marginTop="10dp"
+
+        android:listSelector="@android:color/transparent"
+
+        android:transcriptMode="alwaysScroll"
+
+        android:divider="@null" />
+
+</FrameLayout>

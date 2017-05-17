@@ -14,26 +14,21 @@ import android.widget.ImageButton;
 
 import com.p3app2.Chat_Window.ChatWindowActivity;
 
-import pl.bclogic.pulsator4droid.library.PulsatorLayout;
 
 /**
  * Created by jgraham on 5/15/17.
  */
 
-public class HomeFragment extends Fragment implements View.OnClickListener {
-
-    ViewGroup _view_grp;
+public class VoiceFragment extends Fragment implements View.OnClickListener {
     View _view;
 
-    PulsatorLayout _pulsator;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        _view_grp = container;
-        _view =  inflater.inflate(R.layout.fragment_home, container, false);
+        _view =  inflater.inflate(R.layout.fragment_voice, container, false);
 
-        ImageButton start_button = (ImageButton) _view.findViewById(R.id.start_session_btn);
-        start_button.setOnClickListener(this);
+        ImageButton voice_button = (ImageButton) _view.findViewById(R.id.voice_call_btn);
+        voice_button.setOnClickListener(this);
 
         return _view;
     }
@@ -43,34 +38,29 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
 
-        _pulsator = (PulsatorLayout) getView().findViewById(R.id.pulsator);
-        _pulsator.start();
-        Log.d("HomeFragment", "onViewCreated done");
+        Log.d("VOiceFragment", "onViewCreated done");
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case (R.id.start_session_btn):
-                /* start the session */
-                confirmChatDialog();
-            default:
-                return;
+            case (R.id.voice_call_btn):
+                Log.d("VoiceFragment", "voice_call_btn pressed");
+                confirmVoiceDialog();
 
         }
     }
 
-    private void confirmChatDialog() {
+    private void confirmVoiceDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         builder
-                .setMessage("About to start a Text-Chat Session - Please confirm")
+                .setMessage("About to call Dick's Medical House Staff - Please confirm")
                 .setPositiveButton("Yes",  new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        /*Chat Window Intent Code goes here*/
-                        Intent intent = new Intent(_view.getContext(), ChatWindowActivity.class);
-                        startActivity(intent);
+                        // Yes-code
+                        Log.d("VoiceFragment", "Calling");
                     }
                 })
                 .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -81,4 +71,5 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 })
                 .show();
     }
+
 }
