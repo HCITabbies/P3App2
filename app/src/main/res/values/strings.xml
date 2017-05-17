@@ -20,5 +20,7 @@
     <string name="contact_title_preference">Contact us</string>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
+    <string name="ok">Ok</string>
+    <string name="cancel">Cancel</string>
     <string name="title_activity_chat_window">ChatWindowActivity</string>
 </resources>
