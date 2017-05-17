@@ -10,11 +10,11 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.Preference;
-import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.widget.Toast;
 import android.view.WindowManager;
 
 /**
@@ -45,10 +45,10 @@ public class SettingsFragment extends PreferenceFragment{
         // Uname customization
         Preference uname = findPreference(KEY_UNAME);
         customizeUname(uname);
-
-        // FAQ Customizations
-        Preference faq = findPreference(KEY_FAQ);
-        customizeFaq(faq);
+//
+//        // FAQ Customizations
+//        Preference faq = findPreference(KEY_FAQ);
+//        customizeFaq(faq);
 
         // Contact customization
         Preference contact = findPreference(KEY_CONTACT);
@@ -77,31 +77,29 @@ public class SettingsFragment extends PreferenceFragment{
         });
     }
 
-    public void customizeFaq(Preference faq) {
-        faq.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                // If FAQ or Contact us ..do what needs to be done
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.cs.dartmouth.edu/~kiwi/"));
-                startActivity(browserIntent);
-                return false;
-            }
-        });
-    }
+//    public void customizeFaq(Preference faq) {
+//        faq.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+//            @Override
+//            public boolean onPreferenceClick(Preference preference) {
+//                // If FAQ or Contact us ..do what needs to be done
+//                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.cs.dartmouth.edu/~kiwi/"));
+//                startActivity(browserIntent);
+//                return false;
+//            }
+//        });
+//    }
 
     public void customizeContact(Preference contact) {
         final Context that = this.getContext();
 
-        if (Globals.contact_permission == false)
-        {
-            // TODO: Dialogue saying permission not given (Or a toast)
-        }
-        else {
-            // TODO: Dialogue confirming
-
-            contact.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
+        contact.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                if (Globals.contact_permission == false)
+                {
+                    Toast.makeText(getActivity().getApplicationContext(),
+                            "App does not have permission to call.", Toast.LENGTH_LONG).show();
+                } else {
                     new AlertDialog.Builder(that)
                             .setTitle("Confirm")
                             .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
@@ -115,10 +113,10 @@ public class SettingsFragment extends PreferenceFragment{
                                 public void onClick(DialogInterface dialog, int whichButton) {
                                     // OK has been pressed => force the new value and update the checkbox display
                                     Intent callIntent = new Intent(Intent.ACTION_CALL);
-                                    callIntent.setData(Uri.parse("tel:123456789"));
-                                    if ( ContextCompat.checkSelfPermission( that, Manifest.permission.CALL_PHONE ) != PackageManager.PERMISSION_GRANTED ) {
-                                        ActivityCompat.requestPermissions(getActivity(), new String[] {  android.Manifest.permission.CALL_PHONE  }, MY_PERMISSIONS_REQUEST_CALL_PHONE);
-                                    }
+                                    callIntent.setData(Uri.parse("tel:6032770919"));
+                                    //                                    if ( ContextCompat.checkSelfPermission( that, Manifest.permission.CALL_PHONE ) != PackageManager.PERMISSION_GRANTED ) {
+                                    //                                        ActivityCompat.requestPermissions(getActivity(), new String[] {  android.Manifest.permission.CALL_PHONE  }, MY_PERMISSIONS_REQUEST_CALL_PHONE);
+                                    //                                    }
 
                                     try {
                                         startActivity(callIntent);
@@ -127,12 +125,11 @@ public class SettingsFragment extends PreferenceFragment{
                                     }
                                 }
                             }).create().show();
-
-
-                    return false;
                 }
-            });
-        }
+                return false;
+            }
+        });
+
     }
 
     public void customizeMute(Preference mute) {
