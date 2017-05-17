@@ -21,7 +21,7 @@ import android.view.WindowManager;
  * Kirti will handle this activity
  */
 
-public class SettingsActivity extends PreferenceFragment{
+public class SettingsFragment extends PreferenceFragment{
     public static final String KEY_ANON = "setting_anonymous";
     public static final String KEY_UNAME = "setting_username";
     public static final String KEY_MUTE = "setting_mute";
