@@ -29,6 +29,8 @@ public class ChatWindowActivity extends AppCompatActivity {
     private Button sendBtn;
     private static ChatAdapter adapter;
     private ArrayList<ChatMessage> chatHistory;
+    private Button finishChat;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +48,7 @@ public class ChatWindowActivity extends AppCompatActivity {
         messagesContainer = (ListView) findViewById(R.id.messagesContainer);
         messageET = (EditText) findViewById(R.id.messageEdit);
         sendBtn = (Button) findViewById(R.id.chatSendButton);
+        finishChat = (Button) findViewById(R.id.finishChatButton);
 
         TextView meLabel = (TextView) findViewById(R.id.meLbl);
         TextView companionLabel = (TextView) findViewById(R.id.friendLabel);
@@ -80,6 +83,18 @@ public class ChatWindowActivity extends AppCompatActivity {
                 displayMessage(chatMessage);
             }
         });
+
+
+        finishChat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ////Save all the conversations to flat file
+
+
+                finish();
+
+            }
+            });
     }
 
     public static void displayMessage(ChatMessage message)
