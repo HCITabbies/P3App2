@@ -51,6 +51,7 @@ public class ChatWindowActivity extends AppCompatActivity {
         startService(ir);
         setContentView(R.layout.chat_window);
         try {
+            XMPPConnections connections = new XMPPConnections();
             initControls();
         } catch (SmackException.NotConnectedException e) {
             e.printStackTrace();
@@ -185,7 +186,7 @@ public class ChatWindowActivity extends AppCompatActivity {
         scroll();
     }
 
-    private static void scroll() {
+    public static void scroll() {
         messagesContainer.setSelection(messagesContainer.getCount() - 1);
     }
 

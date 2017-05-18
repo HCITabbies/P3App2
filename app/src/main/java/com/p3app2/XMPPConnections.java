@@ -27,6 +27,7 @@ import java.text.DateFormat;
 import java.util.Date;
 
 import static android.os.SystemClock.sleep;
+import static com.p3app2.Chat_Window.ChatWindowActivity.scroll;
 
 /**
  * Created by prashantanantharaman on 5/14/17.
@@ -121,6 +122,7 @@ public class XMPPConnections {
                         msg.setMessage(message.getBody());
                         msg.setDate(DateFormat.getDateTimeInstance().format(new Date()));
                         ChatWindowActivity.displayMessage(msg);
+                        ChatWindowActivity.scroll();
                         Log.d("Received", message.getBody());
                     }
                 });

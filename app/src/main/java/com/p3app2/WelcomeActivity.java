@@ -99,7 +99,7 @@ public class WelcomeActivity extends AppCompatActivity {
         *   XMPP Database
          */
         new DatabaseAsyncTask();
-        XMPPConnections xmppConnections = new XMPPConnections();
+//        XMPPConnections xmppConnections = new XMPPConnections();
 
         /*
         *   Shared Preferences
