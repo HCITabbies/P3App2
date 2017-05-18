@@ -20,12 +20,7 @@ import com.p3app2.XMPPConnections;
 
 import org.jivesoftware.smack.SmackException;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -155,39 +150,7 @@ public class ChatWindowActivity extends AppCompatActivity {
             Log.d("Error in writing GSON","");
         }
 
-        /*
-        **********************************
-        **********************************
-        CODE TO VIEW WRITTEN RECORD
-        **********************************
-        **********************************
-         */
 
-
-        FileInputStream fis = null;
-        try {
-            fis = openFileInput("ChatRecord1.txt");
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            Log.d("Written FileNotFound","");
-        }
-
-        InputStreamReader isr = new InputStreamReader(fis);
-            BufferedReader bufferedReader = new BufferedReader(isr);
-            StringBuilder sb = new StringBuilder();
-            String line;
-        try {
-            while ((line = bufferedReader.readLine()) != null) {
-                sb.append(line);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-        String json = sb.toString();
-        ChatRecord openRecord = gson.fromJson(json, ChatRecord.class);
-        Log.d("Opened Chat Record", String.valueOf(openRecord.getNumberOfMessages()));
 
       /*  for(ChatMessage cm: conversation)
         {

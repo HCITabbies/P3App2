@@ -5,7 +5,7 @@
     tools:context="com.p3app2.HistoryFragment">
     <ListView
 
-        android:id="@+id/messagesContainer"
+        android:id="@+id/historyChatsContainer"
 
         android:layout_width="match_parent"
 
