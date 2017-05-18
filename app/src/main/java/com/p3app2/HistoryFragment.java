@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.p3app2.Chat_Window.ChatRecord;
@@ -19,7 +20,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class HistoryFragment extends Fragment {
@@ -27,8 +27,9 @@ public class HistoryFragment extends Fragment {
     ListView list_View;
     ArrayAdapter<ChatRecord> chatRecordAdapter;
     private OnFragmentInteractionListener mListener;
-    List<ChatRecord> chatRecords ;
-
+    ArrayList<ChatRecord> chatRecords ;
+    TextView chatStart;
+    TextView chatEnd;
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -81,11 +82,13 @@ public class HistoryFragment extends Fragment {
         chatRecords = new ArrayList<ChatRecord>();
 
         chatRecords.add(openRecord);
-
+        HistoryAdapter historyAdapter = new HistoryAdapter(getContext(), chatRecords);
 
 
         chatRecordAdapter = new ArrayAdapter<ChatRecord>(getContext(), R.layout.list_item_chat_history_list, chatRecords);
-        list_View.setAdapter(chatRecordAdapter);
+        list_View.setAdapter(historyAdapter);
+
+
 
 
         return _view;
