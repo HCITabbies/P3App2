@@ -68,6 +68,7 @@ public class ChatWindowActivity extends AppCompatActivity {
         RelativeLayout container = (RelativeLayout) findViewById(R.id.container);
         companionLabel.setText("Counselor");// Hard Coded
         loadDummyHistory();
+
         ////
 
 
@@ -85,8 +86,11 @@ public class ChatWindowActivity extends AppCompatActivity {
                 chatMessage.setMessage(messageText);
                 chatMessage.setDate(DateFormat.getDateTimeInstance().format(new Date()));
                 chatMessage.setIsStudent(true);
+
                 try {
                     XMPPConnections.sendMessage(chatMessage.getMessage());
+                    displayMessage(chatMessage);
+
                 }
                 catch (SmackException.NotConnectedException e) {
                     e.printStackTrace();
@@ -94,7 +98,7 @@ public class ChatWindowActivity extends AppCompatActivity {
 
                 messageET.setText("");
 
-                displayMessage(chatMessage);
+
             }
         });
 
@@ -110,6 +114,19 @@ public class ChatWindowActivity extends AppCompatActivity {
 
             }
             });
+    }
+
+    public static void displayMessage(ChatMessage message)
+    {
+        adapter.add(message);
+        adapter.notifyDataSetChanged();
+        scroll();
+    }
+
+    public static void scroll() {
+        messagesContainer.setSelection(messagesContainer.getCount() - 1);
+
+        messagesContainer.setSelection(adapter.getCount() - 1);
     }
 
     private void serializeChat() {
@@ -178,16 +195,7 @@ public class ChatWindowActivity extends AppCompatActivity {
 
     }
 
-    public static void displayMessage(ChatMessage message)
-    {
-        adapter.add(message);
-        adapter.notifyDataSetChanged();
-        scroll();
-    }
 
-    private static void scroll() {
-        messagesContainer.setSelection(messagesContainer.getCount() - 1);
-    }
 
     private void loadDummyHistory() throws SmackException.NotConnectedException {
 
