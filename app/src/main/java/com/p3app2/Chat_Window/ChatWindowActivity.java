@@ -51,6 +51,7 @@ public class ChatWindowActivity extends AppCompatActivity {
         startService(ir);
         setContentView(R.layout.chat_window);
         try {
+            XMPPConnections connections = new XMPPConnections();
             initControls();
         } catch (SmackException.NotConnectedException e) {
             e.printStackTrace();
