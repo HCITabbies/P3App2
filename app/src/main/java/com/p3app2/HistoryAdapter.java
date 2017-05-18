@@ -32,9 +32,11 @@ public class HistoryAdapter extends ArrayAdapter<ChatRecord> {
         // Lookup view for data population
         TextView startDate = (TextView) convertView.findViewById(R.id.chatStartInfo);
         TextView endDate = (TextView) convertView.findViewById(R.id.chatEndInfo);
+        TextView numberOfMessages=(TextView) convertView.findViewById(R.id.chatMessageCount);
         // Populate the data into the template view using the data object
         startDate.setText("Chat Started on/at: "+record.getDateTimeStarted());
         endDate.setText("Chat Started on/at: "+record.getDateTimeEnded());
+        numberOfMessages.setText("Messages exchanged in this conversation: "+record.getNumberOfMessages());
         // Return the completed view to render on screen
         return convertView;
     }
