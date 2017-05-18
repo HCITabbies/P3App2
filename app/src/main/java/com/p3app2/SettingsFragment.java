@@ -2,6 +2,7 @@ package com.p3app2;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.Application;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -19,6 +20,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.Window;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.view.WindowManager;
 
@@ -26,23 +28,47 @@ import android.view.WindowManager;
  * Kirti will handle this activity
  */
 
-public class SettingsFragment extends PreferenceFragment{
+public class SettingsFragment extends PreferenceFragment {
     public static final String KEY_ANON = "setting_anonymous";
     public static final String KEY_UNAME = "setting_username";
     public static final String KEY_MUTE = "setting_mute";
-    public static final String KEY_SCREENSHOT= "setting_screenshot";
+    public static final String KEY_SCREENSHOT = "setting_screenshot";
     public static final String KEY_DELETE = "setting_delete";
     public static final String KEY_APPVERSION = "setting_appversion";
     public static final String KEY_FAQ = "faq_preference";
     public static final String KEY_CONTACT = "contact_preference";
     private static final int MY_PERMISSIONS_REQUEST_CALL_PHONE = 1234;
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("Dickshouse", Context.MODE_PRIVATE);
+        boolean enable = sharedPreferences.getBoolean(KEY_ANON, true);
+
+        if (enable) {
+            getActivity().setTheme(R.style.AppTheme);
+        } else {
+            getActivity().setTheme(R.style.anonTheme);
+        }
+
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("Dickshouse", Context.MODE_PRIVATE);
+        boolean enable = sharedPreferences.getBoolean(KEY_ANON, true);
+
+        if (enable) {
+            getActivity().setTheme(R.style.AppTheme);
+        } else {
+            getActivity().setTheme(R.style.anonTheme);
+        }
+
         addPreferencesFromResource(R.xml.preferences);
-        final SharedPreferences sharedPreferences = getActivity().getSharedPreferences("Dickshouse", Context.MODE_PRIVATE);
+
         // Anon cust
         Preference anon = findPreference(KEY_ANON);
         customizeAnon(anon);
@@ -70,13 +96,14 @@ public class SettingsFragment extends PreferenceFragment{
 
     public void customizeUname(final Preference uname) {
         final SharedPreferences sharedPreferences3 = getActivity().getSharedPreferences("Dickshouse", Context.MODE_PRIVATE);
-        uname.setSummary(sharedPreferences3.getString(KEY_UNAME,"anon"));
+        uname.setSummary(sharedPreferences3.getString(KEY_UNAME, "anon"));
 
         uname.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference mute, Object val) {
-                String newVal = (String)val;
+                String newVal = (String) val;
                 uname.setSummary(newVal);
+                sharedPreferences3.edit().putString(KEY_SCREENSHOT, newVal).apply();
                 return true;
             }
         });
@@ -100,8 +127,7 @@ public class SettingsFragment extends PreferenceFragment{
         contact.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                if (Globals.contact_permission == false)
-                {
+                if (Globals.contact_permission == false) {
                     Toast.makeText(getActivity().getApplicationContext(),
                             "App does not have permission to call.", Toast.LENGTH_LONG).show();
                 } else {
@@ -142,7 +168,7 @@ public class SettingsFragment extends PreferenceFragment{
         mute.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference mute, Object val) {
-                Boolean disable = (Boolean)val;
+                Boolean disable = (Boolean) val;
                 if (disable.booleanValue()) {
                     // Disable notifications
                     Globals.notifications = false;
@@ -150,11 +176,12 @@ public class SettingsFragment extends PreferenceFragment{
                     // Enable notifications
                     Globals.notifications = true;
                 }
+
+                sharedPreferences4.edit().putBoolean(KEY_MUTE, disable).apply();
                 return true;
             }
         });
     }
-
 
 
     public void customizeScreenshot(Preference ss) {
@@ -162,12 +189,13 @@ public class SettingsFragment extends PreferenceFragment{
         ss.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference ss, Object val) {
-                Boolean disable = (Boolean)val;
+                Boolean disable = (Boolean) val;
                 if (disable.booleanValue()) {
                     getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
                 } else {
                     getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_SECURE);
                 }
+                sharedPreferences5.edit().putBoolean(KEY_SCREENSHOT, disable).apply();
                 return true;
             }
         });
@@ -181,31 +209,25 @@ public class SettingsFragment extends PreferenceFragment{
         anon.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference anon, Object val) {
-                Boolean enable = (Boolean)val;
+                Boolean enable = (Boolean) val;
+
                 if (enable.booleanValue()) {
-//                    // clear FLAG_TRANSLUCENT_STATUS flag:
-//                    window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-//
-//                    // add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
-//                    window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-//                    // Disable anonymity
-//                    window.setStatusBarColor(getResources().getColor(R.color.DarkGreen));
                     getActivity().setTheme(R.style.AppTheme);
+                    getActivity().getApplicationContext().setTheme(R.style.AppTheme);
                 } else {
-                    // clear FLAG_TRANSLUCENT_STATUS flag:
-//                    window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-//
-//                    // add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
-//                    window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-//                    window.setStatusBarColor(Color.argb(127,22,22,22));
                     getActivity().setTheme(R.style.anonTheme);
+                    getActivity().getApplicationContext().setTheme(R.style.anonTheme);
                 }
+
+                Globals.currentItem = 2;
+                getActivity().recreate();
+
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction ft = fragmentManager.beginTransaction();
                 ft.detach(that);
                 ft.attach(that);
                 ft.commit();
-                sharedPreferences6.edit().putBoolean(KEY_ANON,enable);
+                sharedPreferences6.edit().putBoolean(KEY_ANON, enable).apply();
                 return true;
             }
         });

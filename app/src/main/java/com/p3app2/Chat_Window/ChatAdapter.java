@@ -19,7 +19,7 @@ import java.util.List;
  * Created by rohan on 15-05-2017.
  */
 
-public class ChatAdapter extends BaseAdapter{
+public class ChatAdapter extends BaseAdapter {
 
     private final List<ChatMessage> chatMessages;
     private Activity context;
@@ -53,7 +53,6 @@ public class ChatAdapter extends BaseAdapter{
     }
 
 
-
     public void add(ChatMessage message) {
         chatMessages.add(message);
     }
@@ -62,7 +61,9 @@ public class ChatAdapter extends BaseAdapter{
         chatMessages.addAll(messages);
     }
 
-    public List<ChatMessage> getChat(){return chatMessages;}
+    public List<ChatMessage> getChat() {
+        return chatMessages;
+    }
 
     private ViewHolder createViewHolder(View v) {
         ViewHolder holder = new ViewHolder();
@@ -131,8 +132,8 @@ public class ChatAdapter extends BaseAdapter{
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-    ///
-        boolean myMsg = chatMessage.getIsStudent() ;//Just a dummy check
+        ///
+        boolean myMsg = chatMessage.getIsStudent();//Just a dummy check
         //to simulate whether it me or other sender
         setAlignment(holder, myMsg);
         holder.txtMessage.setText(chatMessage.getMessage());

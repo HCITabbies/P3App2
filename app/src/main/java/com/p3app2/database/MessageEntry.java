@@ -11,13 +11,11 @@ public class MessageEntry {
     public String subject;
     public String body;
 
-    public MessageEntry()
-    {
+    public MessageEntry() {
 
     }
 
-    public MessageEntry(String id, int sender, String sub, String body)
-    {
+    public MessageEntry(String id, int sender, String sub, String body) {
         this.mId = id;
         this.sender = sender;
         this.subject = sub;

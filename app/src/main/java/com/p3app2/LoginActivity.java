@@ -71,8 +71,7 @@ public class LoginActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("Dickshouse", Context.MODE_PRIVATE);
         String email = sharedPreferences.getString("email", null);
 
-        if(email != null)
-        {
+        if (email != null) {
             Intent intent = new Intent(this, WelcomeActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);

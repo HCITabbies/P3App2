@@ -38,7 +38,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         _view_grp = container;
-        _view =  inflater.inflate(R.layout.fragment_home, container, false);
+        _view = inflater.inflate(R.layout.fragment_home, container, false);
 
         /* set anon indicator text */
         anon_text_off = (TextView) _view.findViewById(R.id.anon_off_txt);
@@ -50,7 +50,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
         return _view;
     }
-
 
 
     @Override
@@ -65,15 +64,17 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     public void onResume() {
         super.onResume();
         shared_pref = getActivity().getSharedPreferences("Dickshouse", Context.MODE_PRIVATE);
-        boolean anon_val = shared_pref.getBoolean(SettingsFragment.KEY_ANON, false);
+        boolean anon_val = shared_pref.getBoolean(SettingsFragment.KEY_ANON, true);
         if (anon_val) {
-            anon_text_off.setVisibility(TextView.INVISIBLE);
-            anon_text_on.setVisibility(TextView.VISIBLE);
-        }
-        else {
+            getActivity().setTheme(R.style.AppTheme);
             anon_text_off.setVisibility(TextView.VISIBLE);
             anon_text_on.setVisibility(TextView.INVISIBLE);
+        } else {
+            anon_text_off.setVisibility(TextView.INVISIBLE);
+            anon_text_on.setVisibility(TextView.VISIBLE);
+            getActivity().setTheme(R.style.anonTheme);
         }
+
         Log.d("HomeFragment", "onResume returning");
     }
 
@@ -95,7 +96,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
         builder
                 .setMessage("About to start a Text-Chat Session - Please confirm")
-                .setPositiveButton("Yes",  new DialogInterface.OnClickListener() {
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         /*Chat Window Intent Code goes here*/

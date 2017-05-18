@@ -1,75 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen
-xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-<PreferenceCategory
-    android:title="@string/settings_custom_title">
-
-    <SwitchPreference
-        android:key="setting_anonymous"
-        android:title="@string/anonymous_preference"
-        android:summary="@string/anonymous_summary"
-        android:defaultValue="true"
-        android:persistent="true"/>
-
-    <EditTextPreference
-        android:dependency="setting_anonymous"
-        android:key="setting_username"
-        android:title="@string/pref_username"
-        android:summary="@string/pref_username_summary"
-        android:persistent="true"
-        />
-
-    <SwitchPreference
-        android:key="setting_mute"
-        android:title="@string/mute_title"
-        android:summary="@string/mute_summary"
-        android:defaultValue="false"
-        android:persistent="true"/>
-
-
-    <PreferenceScreen
-        android:title="@string/setting_advanced">
+    <PreferenceCategory android:title="@string/settings_custom_title">
 
         <SwitchPreference
-            android:key="setting_screenshot"
-            android:title="@string/screenshot_preference"
-            android:summary="@string/screenshot_summary"
-            android:defaultValue="false"
-            android:persistent="true"/>
+            android:key="setting_anonymous"
+            android:title="@string/anonymous_preference"
+            android:summary="@string/anonymous_summary"
+            android:defaultValue="true"
+            android:persistent="true" />
 
-        <!--<SwitchPreference-->
+        <EditTextPreference
+            android:dependency="setting_anonymous"
+            android:key="setting_username"
+            android:title="@string/pref_username"
+            android:summary="@string/pref_username_summary"
+            android:persistent="true" />
+
+        <SwitchPreference
+            android:key="setting_mute"
+            android:title="@string/mute_title"
+            android:summary="@string/mute_summary"
+            android:defaultValue="false"
+            android:persistent="true" />
+
+
+        <PreferenceScreen android:title="@string/setting_advanced">
+
+            <SwitchPreference
+                android:key="setting_screenshot"
+                android:title="@string/screenshot_preference"
+                android:summary="@string/screenshot_summary"
+                android:defaultValue="false"
+                android:persistent="true" />
+
+            <!--<SwitchPreference-->
             <!--android:key="setting_delete"-->
             <!--android:title="@string/delete_title"-->
             <!--android:summary="@string/delete_summary"-->
             <!--android:defaultValue="false"-->
             <!--android:persistent="true"/>-->
 
+            <Preference
+                android:key="setting_appversion"
+                android:title="@string/pref_appversion"
+                android:persistent="true"
+                android:summary="@string/app_version" />
+        </PreferenceScreen>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/settings_help_title">
+        <PreferenceScreen
+            android:title="FAQ"
+            android:summary="http://www.cs.dartmouth.edu/~kiwi/">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="http://www.cs.dartmouth.edu/~kiwi/" />
+        </PreferenceScreen>
+
         <Preference
-            android:key="setting_appversion"
-            android:title="@string/pref_appversion"
-            android:persistent="true"
-            android:summary="@string/app_version"
-            />
-    </PreferenceScreen>
+            android:key="contact_preference"
+            android:selectable="true"
+            android:enabled="true"
+            android:title="@string/contact_title_preference" />
 
-</PreferenceCategory>
-
-<PreferenceCategory
-    android:title="@string/settings_help_title">
-    <PreferenceScreen android:title="FAQ"
-        android:summary="http://www.cs.dartmouth.edu/~kiwi/">
-        <intent android:action="android.intent.action.VIEW"
-        android:data="http://www.cs.dartmouth.edu/~kiwi/" />
-    </PreferenceScreen>
-
-    <Preference
-        android:key="contact_preference"
-        android:selectable="true"
-        android:enabled="true"
-        android:title="@string/contact_title_preference"
-        />
-
-</PreferenceCategory>
+    </PreferenceCategory>
 
 </PreferenceScreen>

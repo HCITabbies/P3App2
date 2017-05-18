@@ -33,10 +33,11 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".Chat_Window.ChatWindowActivity"
             android:label="@string/title_activity_chat_window"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme"></activity>
 
         <service
             android:name=".MessageReceiverService"

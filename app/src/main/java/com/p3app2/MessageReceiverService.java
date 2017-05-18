@@ -62,10 +62,8 @@ public class MessageReceiverService extends IntentService {
         }
     }
 
-    public static void unsetNotification()
-    {
-        if(Globals.currentnotifications == true)
-        {
+    public static void unsetNotification() {
+        if (Globals.currentnotifications == true) {
             notificationManager.cancel(0);
             Globals.currentnotifications = false;
         }

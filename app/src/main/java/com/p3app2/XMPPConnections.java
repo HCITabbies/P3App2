@@ -39,10 +39,10 @@ public class XMPPConnections {
     private static final String DOMAIN = "prashant";
     private static final String HOST = "prashant.at";
     private static final int PORT = 5222;
-    private String userName ="jack";
+    private String userName = "jack";
     private String passWord = "secr3t";
-    AbstractXMPPConnection connection ;
-    ChatManager chatmanager ;
+    AbstractXMPPConnection connection;
+    ChatManager chatmanager;
     static Chat newChat;
     public static boolean connected = false;
     private boolean isToasted;
@@ -50,8 +50,7 @@ public class XMPPConnections {
     private boolean loggedin;
 
 
-    public XMPPConnections()
-    {
+    public XMPPConnections() {
         Log.i("XMPP", "Initializing!");
 
 
@@ -75,15 +74,13 @@ public class XMPPConnections {
             @Override
             public void run() {
                 try {
-                    while(!connected)
-                    {
+                    while (!connected) {
                         sleep(1000);
                         Log.d("Not connected", "Not connected");
                     }
-                    if(connected)
+                    if (connected)
                         newChat.sendMessage(message);
-                }
-                catch (SmackException.NotConnectedException e) {
+                } catch (SmackException.NotConnectedException e) {
                     e.printStackTrace();
                 }
             }
@@ -100,14 +97,13 @@ public class XMPPConnections {
             Log.d("Init", "Init");
             try {
                 init(userName, passWord);
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             return null;
         }
-        public void init(String userId,String pwd ) throws NoSuchAlgorithmException, KeyManagementException, CertificateException, KeyStoreException, IOException {
+
+        public void init(String userId, String pwd) throws NoSuchAlgorithmException, KeyManagementException, CertificateException, KeyStoreException, IOException {
 
             try {
                 connection.connect();
@@ -127,13 +123,10 @@ public class XMPPConnections {
                     }
                 });
                 connected = true;
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-
 
 
         @Override

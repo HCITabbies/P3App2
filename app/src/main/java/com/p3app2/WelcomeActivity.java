@@ -15,6 +15,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -48,8 +49,7 @@ public class WelcomeActivity extends AppCompatActivity {
     HistoryFragment history_fragment = new HistoryFragment();
     SettingsFragment settings_fragment = new SettingsFragment();
 
-    class DatabaseAsyncTask extends AsyncTask
-    {
+    class DatabaseAsyncTask extends AsyncTask {
 
         @Override
         protected Object doInBackground(Object[] params) {
@@ -85,92 +85,91 @@ public class WelcomeActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-            {
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.CALL_PHONE}, 0);
+            if (ContextCompat.checkSelfPermission(this,
+                    Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                {
+                    ActivityCompat.requestPermissions(this,
+                            new String[]{Manifest.permission.CALL_PHONE}, 0);
+                }
             }
-        }
-
 
 
         /*
         *   XMPP Database
          */
-        new DatabaseAsyncTask();
-//        XMPPConnections xmppConnections = new XMPPConnections();
+            new DatabaseAsyncTask();
+            XMPPConnections xmppConnections = new XMPPConnections();
 
-        /*
+            /*
         *   Shared Preferences
         */
-        _shared_preferences = getSharedPreferences("Dickshouse", Context.MODE_PRIVATE);
+            _shared_preferences = getSharedPreferences("Dickshouse", Context.MODE_PRIVATE);
 
 
         /*
         *   Activity and Views
          */
-        super.onCreate(savedInstanceState);
+            super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_welcome);
+            boolean enable = _shared_preferences.getBoolean(SettingsFragment.KEY_ANON, true);
 
-        //Set overall statusbar
-//        Window window = getWindow();
-//        // clear FLAG_TRANSLUCENT_STATUS flag:
-//        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-//
-//        // add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
-//        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-//        window.setStatusBarColor(getResources().getColor(R.color.DarkGreen));
+            if (enable) {
+                this.setTheme(R.style.AppTheme);
+            } else {
+                this.setTheme(R.style.anonTheme);
+            }
 
-        // Set theme
-        setTheme(R.style.AppTheme);
+            setContentView(R.layout.activity_welcome);
 
         /* Initializing Navigation Drawer */
-        m_drawer_layout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        m_drawer_list = (ListView) findViewById(R.id.left_drawer);
+            m_drawer_layout = (DrawerLayout) findViewById(R.id.drawer_layout);
+            m_drawer_list = (ListView) findViewById(R.id.left_drawer);
 
-        // Set the adapter for the list view
-        m_drawer_list.setAdapter(new ArrayAdapter<String>(this,
-                R.layout.drawer_list_item, m_option_titles));
-        // Set the list's click listener
-        m_drawer_list.setOnItemClickListener(new DrawerItemClickListener());
+            // Set the adapter for the list view
+            m_drawer_list.setAdapter(new ArrayAdapter<String>(this,
+                    R.layout.drawer_list_item, m_option_titles));
+            // Set the list's click listener
+            m_drawer_list.setOnItemClickListener(new DrawerItemClickListener());
 
         /* nav drawer shadow when opened */
-        m_drawer_layout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
+            m_drawer_layout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
 
-        // enable ActionBar app icon to behave as action to toggle nav drawer
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
-
-        // ActionBarDrawerToggle ties together the the proper interactions
-        // between the sliding drawer and the action bar app icon
-        mDrawerToggle = new ActionBarDrawerToggle(this, m_drawer_layout, R.string.drawer_open, R.string.drawer_close) {
-            public void onDrawerClosed(View view) {
-                getSupportActionBar().setTitle(mTitle);
-                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+            // enable ActionBar app icon to behave as action to toggle nav drawer
+            if (getSupportActionBar() != null) {
+                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                getSupportActionBar().setHomeButtonEnabled(true);
             }
 
-            public void onDrawerOpened(View drawerView) {
-                getSupportActionBar().setTitle(mDrawerTitle);
-                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
-            }
-        };
-        m_drawer_layout.addDrawerListener(mDrawerToggle);
+            // ActionBarDrawerToggle ties together the the proper interactions
+            // between the sliding drawer and the action bar app icon
+            mDrawerToggle = new ActionBarDrawerToggle(this, m_drawer_layout, R.string.drawer_open, R.string.drawer_close) {
+                public void onDrawerClosed(View view) {
+                    getSupportActionBar().setTitle(mTitle);
+                    invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+                }
+
+                public void onDrawerOpened(View drawerView) {
+                    getSupportActionBar().setTitle(mDrawerTitle);
+                    invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+                }
+            };
+            m_drawer_layout.addDrawerListener(mDrawerToggle);
 
 
         /*
         *   Fragment Management
          */
         /* Insert the fragment by replacing any existing fragment */
-        FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.content_frame, home_fragment)
-                .commit();
-
+            FragmentManager fragmentManager = getFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_frame, home_fragment)
+                    .commit();
 
         if (savedInstanceState == null) {
             selectItem(0);
+        } else if(Globals.currentItem != 0){
+            selectItem(Globals.currentItem);
+            Globals.currentItem = 0;
         }
     }
 
@@ -193,7 +192,9 @@ public class WelcomeActivity extends AppCompatActivity {
         }
     }
 
-    /** Swaps fragments in the main content view */
+    /**
+     * Swaps fragments in the main content view
+     */
     private void selectItem(int position) {
 //        // Insert the fragment by replacing any existing fragment
         FragmentManager fragmentManager = getFragmentManager();
@@ -203,14 +204,14 @@ public class WelcomeActivity extends AppCompatActivity {
         //setTitle(m_option_titles[position]);
         m_drawer_layout.closeDrawer(m_drawer_list);
 
-        switch(position) {
+        switch (position) {
             /* Voice Session clicked */
             case (1):
                 m_drawer_list.setItemChecked(1, true);
 
                 fragmentManager.beginTransaction()
-                .replace(R.id.content_frame, voice_fragment)
-                .commit();
+                        .replace(R.id.content_frame, voice_fragment)
+                        .commit();
                 setTitle("Voice Call");
                 return;
             /* Settings clicked */
@@ -251,14 +252,17 @@ public class WelcomeActivity extends AppCompatActivity {
                 startActivity(login_intent);
                 return;
             default:
-                setTitle("Home Screen");
+                try {
+                    setTitle("Home Screen");
+                } catch (NullPointerException e) {
+                    Log.d("OnCreate", "NPE");
+                }
                 m_drawer_list.setItemChecked(0, true);
                 fragmentManager.beginTransaction()
-                    .replace(R.id.content_frame, home_fragment)
-                    .commit();
+                        .replace(R.id.content_frame, home_fragment)
+                        .commit();
                 return;
         }
-
 
 
     }

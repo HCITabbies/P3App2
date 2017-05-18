@@ -46,11 +46,7 @@
 
             android:layout_alignParentRight="true"
 
-            android:background="@color/background_floating_material_dark"
-
-            android:text="Send"
-
-            android:textColor="@color/background_material_light"/>
+            android:text="Send" />
 
         <ListView
 
@@ -102,21 +98,11 @@
 
             android:layout_height="30dp"
 
-           android:layout_centerHorizontal="true"
+            android:layout_centerHorizontal="true"
 
             android:text="Finish Chat"
 
-            android:background="@color/DarkGreen"
-
-            android:textSize="15dp"
-
-
-
-
-
-
-
-            android:textColor="@color/background_material_light"/>
+            android:textSize="15dp" />
 
         <TextView
 

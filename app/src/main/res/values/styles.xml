@@ -5,31 +5,19 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="colorPrimary">?android:attr/statusBarColor</item>
-        <item name="colorPrimaryDark">@color/primary_dark</item>
-        <item name="colorAccent">@color/SpringGreen</item>
+        <item name="colorPrimaryDark">@color/White</item>
+        <item name="colorAccent">@color/DarkGreen</item>
         <item name="android:statusBarColor">@color/DarkGreen</item>
-        <item name="android:windowBackground">@color/primary</item>
-
-        <item name="colorControlNormal">@color/iron</item>
-        <item name="colorControlActivated">@color/white</item>
-        <item name="colorControlHighlight">@color/white</item>
-        <item name="android:textColorHint">@color/iron</item>
-
-        <item name="colorButtonNormal">@color/primary_darker</item>
-        <item name="android:colorButtonNormal">@color/primary_darker</item>
-        <item name="android:textColorPrimaryInverse">@color/Cyan</item>
-        <item name="android:colorBackground">@color/DarkBlue</item>
+        <item name="android:windowBackground">@color/GhostWhite</item>
     </style>
 
-    <style name="anonTheme" parent="Theme.AppCompat.NoActionBar">
+    <style name="anonTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <item name="android:background">@color/anonBg</item>
-        <item name="colorPrimary">@android:color/primary_text_light_nodisable</item>
-        <item name="colorPrimaryDark">@color/anonColorPrimaryDark</item>
-        <item name="colorAccent">@color/Teal</item>
-        <item name="android:statusBarColor">@color/anonColorPrimary</item>
-        <item name="android:colorBackground">@color/DarkCyan</item>
-        <item name="android:textColorPrimaryInverse">@color/DarkGreen</item>
+        <item name="colorPrimary">?android:attr/statusBarColor</item>
+        <item name="colorPrimaryDark">@color/White</item>
+        <item name="colorAccent">@color/Black</item>
+        <item name="android:statusBarColor">@color/Black</item>
+        <item name="android:windowBackground">@color/GhostWhite</item>
     </style>
 
     <style name="AppTheme.Dark.Dialog" parent="Theme.AppCompat.Dialog">
@@ -38,14 +26,8 @@
         <item name="android:background">@color/primary</item>
     </style>
 
-    <style name="AppTheme.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
-
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-
 
 </resources>
