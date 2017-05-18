@@ -4,7 +4,7 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
-    <color name="anonColorPrimary">#673AB7</color>
+    <color name="anonColorPrimary">#673ab7</color>
     <color name="anonColorPrimaryDark">#512DAB</color>
     <color name="anonColorAccent">#FF4081</color>
     <color name="anonBg">#999999</color>
@@ -149,19 +149,19 @@
     <color name="DodgerBlue">#1E90FF</color>
     <color name="MidnightBlue">#191970</color>
     <color name="Aqua">#00FFFF</color>
-    <color name="Cyan">#00FFFF</color>
-    <color name="SpringGreen">#00FF7F</color>
+    <color name="Cyan">#00ffff</color>
+    <color name="SpringGreen">#00ff7f</color>
     <color name="Lime">#00FF00</color>
     <color name="MediumSpringGreen">#00FA9A</color>
     <color name="DarkTurquoise">#00CED1</color>
     <color name="DeepSkyBlue">#00BFFF</color>
-    <color name="DarkCyan">#008B8B</color>
+    <color name="DarkCyan">#008b8b</color>
     <color name="Teal">#008080</color>
     <color name="Green">#008000</color>
     <color name="DarkGreen">#006400</color>
     <color name="Blue">#0000FF</color>
     <color name="MediumBlue">#0000CD</color>
-    <color name="DarkBlue">#00008B</color>
+    <color name="DarkBlue">#00008b</color>
     <color name="Navy">#000080</color>
     <color name="Black">#000000</color>
 

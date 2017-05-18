@@ -2,11 +2,15 @@ package com.p3app2;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.Preference;
@@ -14,6 +18,7 @@ import android.preference.PreferenceFragment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.view.Window;
 import android.widget.Toast;
 import android.view.WindowManager;
 
@@ -140,8 +145,10 @@ public class SettingsFragment extends PreferenceFragment{
                 Boolean disable = (Boolean)val;
                 if (disable.booleanValue()) {
                     // Disable notifications
+                    Globals.notifications = false;
                 } else {
                     // Enable notifications
+                    Globals.notifications = true;
                 }
                 return true;
             }
@@ -168,17 +175,37 @@ public class SettingsFragment extends PreferenceFragment{
 
     public void customizeAnon(Preference anon) {
         final SharedPreferences sharedPreferences6 = getActivity().getSharedPreferences("Dickshouse", Context.MODE_PRIVATE);
+        final Window window = getActivity().getWindow();
+        final Fragment that = this;
+
         anon.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference anon, Object val) {
-                Boolean disable = (Boolean)val;
-                if (disable.booleanValue()) {
-                    // Disable anonymity
-                    getActivity().setTheme(R.style.AppTheme_Dark);
+                Boolean enable = (Boolean)val;
+                if (enable.booleanValue()) {
+//                    // clear FLAG_TRANSLUCENT_STATUS flag:
+//                    window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+//
+//                    // add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
+//                    window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+//                    // Disable anonymity
+//                    window.setStatusBarColor(getResources().getColor(R.color.DarkGreen));
+                    getActivity().setTheme(R.style.AppTheme);
                 } else {
-                    // Enable anonimity
+                    // clear FLAG_TRANSLUCENT_STATUS flag:
+//                    window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+//
+//                    // add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
+//                    window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+//                    window.setStatusBarColor(Color.argb(127,22,22,22));
                     getActivity().setTheme(R.style.anonTheme);
                 }
+                FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction ft = fragmentManager.beginTransaction();
+                ft.detach(that);
+                ft.attach(that);
+                ft.commit();
+                sharedPreferences6.edit().putBoolean(KEY_ANON,enable);
                 return true;
             }
         });

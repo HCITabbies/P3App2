@@ -17,6 +17,8 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -109,7 +111,20 @@ public class WelcomeActivity extends AppCompatActivity {
         *   Activity and Views
          */
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_welcome);
+
+        //Set overall statusbar
+//        Window window = getWindow();
+//        // clear FLAG_TRANSLUCENT_STATUS flag:
+//        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+//
+//        // add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
+//        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+//        window.setStatusBarColor(getResources().getColor(R.color.DarkGreen));
+
+        // Set theme
+        setTheme(R.style.AppTheme);
 
         /* Initializing Navigation Drawer */
         m_drawer_layout = (DrawerLayout) findViewById(R.id.drawer_layout);
