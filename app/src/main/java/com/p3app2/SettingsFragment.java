@@ -127,10 +127,6 @@ public class SettingsFragment extends PreferenceFragment {
         contact.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                if (Globals.contact_permission == false) {
-                    Toast.makeText(getActivity().getApplicationContext(),
-                            "App does not have permission to call.", Toast.LENGTH_LONG).show();
-                } else {
                     new AlertDialog.Builder(that)
                             .setTitle("Confirm")
                             .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
@@ -156,7 +152,6 @@ public class SettingsFragment extends PreferenceFragment {
                                     }
                                 }
                             }).create().show();
-                }
                 return false;
             }
         });
