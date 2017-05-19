@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -77,6 +78,9 @@ public class VoiceFragment extends Fragment implements View.OnClickListener {
                     public void onClick(DialogInterface dialog, int id) {
                         // Yes-code
                         Log.d("VoiceFragment", "Calling");
+                        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + "123456789"));
+                        startActivity(intent);
+
                     }
                 })
                 .setNegativeButton("No", new DialogInterface.OnClickListener() {
