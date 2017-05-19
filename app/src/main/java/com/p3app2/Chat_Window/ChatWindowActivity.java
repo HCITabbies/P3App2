@@ -1,6 +1,8 @@
 package com.p3app2.Chat_Window;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +16,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.p3app2.HomeFragment;
 import com.p3app2.MessageReceiverService;
 import com.p3app2.R;
 import com.p3app2.XMPPConnections;
@@ -35,9 +38,11 @@ public class ChatWindowActivity extends AppCompatActivity {
     private static ChatAdapter adapter;
     private ArrayList<ChatMessage> chatHistory;
     private Button finishChat;
+    private Button switchCounselor;
 /*    private int studentChatCounter = 0;
     private int counselorChatCounter=0;*/
     private int globalMsgCounter=0;
+    HomeFragment homeFragment = new HomeFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,11 +63,12 @@ public class ChatWindowActivity extends AppCompatActivity {
         messageET = (EditText) findViewById(R.id.messageEdit);
         sendBtn = (Button) findViewById(R.id.chatSendButton);
         finishChat = (Button) findViewById(R.id.finishChatButton);
+        switchCounselor = (Button) findViewById(R.id.finishChatButton2);
         globalMsgCounter =0;
         TextView meLabel = (TextView) findViewById(R.id.meLbl);
         TextView companionLabel = (TextView) findViewById(R.id.friendLabel);
         RelativeLayout container = (RelativeLayout) findViewById(R.id.container);
-        companionLabel.setText("Counselor");// Hard Coded
+        companionLabel.setText("");// Hard Coded
         loadDummyHistory();
 
         ////
@@ -108,6 +114,42 @@ public class ChatWindowActivity extends AppCompatActivity {
                 serializeChat();
                 finish();
 
+            }
+            });
+
+        switchCounselor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                ////Save all the conversations to flat file
+
+                MessageReceiverService.unsetNotification();
+                serializeChat();
+                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+
+                builder
+                        .setMessage("About to switch Counselor - Please confirm")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int id) {
+                        /*Chat Window Intent Code goes here*/
+                                finish();
+                                Intent intent = new Intent(v.getContext(), ChatWindowActivity.class);
+                                startActivity(intent);
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        })
+                        .show();
+               /* Intent intent = new Intent(v.getContext(), ChatWindowActivity.class);
+                startActivity(intent);
+*/
+                //insert new conversatin logic here
+
+                //finish();
             }
             });
     }

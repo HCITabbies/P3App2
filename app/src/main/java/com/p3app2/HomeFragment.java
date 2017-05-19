@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -91,7 +90,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    private void confirmChatDialog() {
+    public void confirmChatDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         builder
