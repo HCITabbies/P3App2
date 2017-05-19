@@ -57,7 +57,7 @@ public class ChatWindowActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        getSupportActionBar().setTitle("Chat");
+        getSupportActionBar().setTitle("Chat with a Counselor");
     }
 
     private void initControls() throws SmackException.NotConnectedException {
