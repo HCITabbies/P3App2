@@ -9,6 +9,7 @@
         <item name="colorAccent">@color/DarkGreen</item>
         <item name="android:statusBarColor">@color/DarkGreen</item>
         <item name="android:windowBackground">@color/GhostWhite</item>
+        <item name="android:navigationBarColor">@color/DarkGreen</item>
     </style>
 
     <style name="anonTheme" parent="Theme.AppCompat.Light.DarkActionBar">

@@ -52,44 +52,41 @@ public class HistoryFragment extends Fragment {
         **********************************
          */
 
-
+        InputStreamReader isr = null;
         FileInputStream fis = null;
         try {
             fis = getContext().openFileInput("ChatRecord1.txt");
+            isr = new InputStreamReader(fis);
+            BufferedReader bufferedReader = new BufferedReader(isr);
+            StringBuilder sb = new StringBuilder();
+            String line;
+            try {
+                while ((line = bufferedReader.readLine()) != null) {
+                    sb.append(line);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            Gson gson = new Gson();
+            String json = sb.toString();
+            ChatRecord openRecord = gson.fromJson(json, ChatRecord.class);
+
+
+            Log.d("Opened Chat Record", String.valueOf(openRecord.getNumberOfMessages()));
+            chatRecords = new ArrayList<ChatRecord>();
+
+            chatRecords.add(openRecord);
+            HistoryAdapter historyAdapter = new HistoryAdapter(getContext(), chatRecords);
+
+
+            chatRecordAdapter = new ArrayAdapter<ChatRecord>(getContext(), R.layout.list_item_chat_history_list, chatRecords);
+            list_View.setAdapter(historyAdapter);
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             Log.d("Written FileNotFound","");
         }
-
-        InputStreamReader isr = new InputStreamReader(fis);
-        BufferedReader bufferedReader = new BufferedReader(isr);
-        StringBuilder sb = new StringBuilder();
-        String line;
-        try {
-            while ((line = bufferedReader.readLine()) != null) {
-                sb.append(line);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        Gson gson = new Gson();
-        String json = sb.toString();
-        ChatRecord openRecord = gson.fromJson(json, ChatRecord.class);
-
-
-        Log.d("Opened Chat Record", String.valueOf(openRecord.getNumberOfMessages()));
-        chatRecords = new ArrayList<ChatRecord>();
-
-        chatRecords.add(openRecord);
-        HistoryAdapter historyAdapter = new HistoryAdapter(getContext(), chatRecords);
-
-
-        chatRecordAdapter = new ArrayAdapter<ChatRecord>(getContext(), R.layout.list_item_chat_history_list, chatRecords);
-        list_View.setAdapter(historyAdapter);
-
-
-
 
         return _view;
     }
